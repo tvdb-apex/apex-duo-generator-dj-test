@@ -1,215 +1,901 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Apex Duo Challenge</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apex Duo Challenge</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #0b0d10;
+      --panel: #13171d;
+      --panel-2: #1a2028;
+      --text: #f5f7fa;
+      --muted: #a8b0bb;
+      --accent: #ff6a2b;
+      --accent-2: #ffb347;
+      --danger: #ff5a5a;
+      --success: #6ee7a8;
+      --border: #2a313b;
+    }
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    * {
+      box-sizing: border-box;
+    }
 
-<style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(180deg, #0b0d10 0%, #0f1318 100%);
+      color: var(--text);
+    }
 
-body{
-background:#111;
-color:white;
-font-family:Arial;
-text-align:center;
-margin-top:80px;
-}
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px;
+    }
 
-button{
-font-size:28px;
-padding:18px 40px;
-cursor:pointer;
-}
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
 
-.result{
-margin-top:50px;
-font-size:22px;
-}
+    h1 {
+      margin: 0;
+      font-size: 40px;
+      line-height: 1;
+    }
 
-.name{
-font-size:26px;
-font-weight:bold;
-margin-top:30px;
-}
+    .subtitle {
+      color: var(--muted);
+      margin-top: 8px;
+      font-size: 15px;
+    }
 
-.status{
-margin-top:20px;
-color:#aaa;
-}
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
 
-.error{
-color:red;
-}
+    button {
+      border: 1px solid var(--border);
+      background: var(--panel);
+      color: var(--text);
+      padding: 14px 18px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: 0.15s ease;
+    }
 
-</style>
+    button:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .primary {
+      background: linear-gradient(180deg, #ff7b3c 0%, #ff5a1f 100%);
+      border: none;
+      color: white;
+      min-width: 150px;
+    }
+
+    .statusbar {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .banner {
+      display: none;
+      margin-bottom: 16px;
+      background: linear-gradient(90deg, #561111 0%, #8f1d1d 100%);
+      border: 1px solid #a92d2d;
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .banner.show {
+      display: block;
+    }
+
+    .banner-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: #fff3f3;
+      margin-bottom: 6px;
+    }
+
+    .banner-sub {
+      color: #ffdede;
+      font-size: 16px;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 22px;
+      min-height: 280px;
+    }
+
+    .player-name {
+      font-size: 16px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+
+    .legend {
+      font-size: 34px;
+      font-weight: 900;
+      margin-bottom: 18px;
+    }
+
+    .guns {
+      display: grid;
+      gap: 10px;
+    }
+
+    .gun-pill {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 12px 14px;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .panel h3 {
+      margin: 0 0 12px 0;
+      font-size: 18px;
+    }
+
+    .notice-list {
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .notice {
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .status-text {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .status-text.error {
+      color: var(--danger);
+    }
+
+    .small {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-note {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 900px) {
+      .statusbar,
+      .main-grid,
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 32px;
+      }
+
+      .legend {
+        font-size: 28px;
+      }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="wrap">
+    <div class="topbar">
+      <div>
+        <h1>Apex Duo Challenge</h1>
+        <div class="subtitle">Live synced rules engine for Dj Read & Tvdb</div>
+      </div>
 
-<h1>Apex Duo Challenge</h1>
+      <div class="controls">
+        <button id="rollBtn" class="primary">ROLL</button>
+        <button id="resetAllBtn">Reset All</button>
+      </div>
+    </div>
 
-<button id="rollBtn">ROLL</button>
+    <div class="statusbar">
+      <div class="stat">
+        <div class="stat-label">Legend Cycle</div>
+        <div class="stat-value" id="legendCycleValue">-</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Gun Cycle</div>
+        <div class="stat-value" id="gunCycleValue">-</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Legends Left</div>
+        <div class="stat-value" id="legendsLeftValue">-</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Guns Left</div>
+        <div class="stat-value" id="gunsLeftValue">-</div>
+      </div>
+    </div>
 
-<div class="status" id="status">Connecting...</div>
+    <div id="chaosBanner" class="banner">
+      <div class="banner-title">⚡ CHAOS ROUND</div>
+      <div class="banner-sub" id="chaosText">-</div>
+    </div>
 
-<div class="result" id="result"></div>
+    <div class="main-grid">
+      <div class="card">
+        <div class="player-name">Dj Read</div>
+        <div class="legend" id="p1Legend">Waiting...</div>
+        <div class="guns" id="p1Guns"></div>
+      </div>
 
-<script>
+      <div class="card">
+        <div class="player-name">Tvdb</div>
+        <div class="legend" id="p2Legend">Waiting...</div>
+        <div class="guns" id="p2Guns"></div>
+      </div>
+    </div>
 
-const PROJECT_URL = "https://sfareqxrytcwfbbtazaf.supabase.co";
-const PUBLISHABLE_KEY = "sb_publishable_h9jnpKtpdETR23obQCPEjg_fE_Z3eo0";
+    <div class="meta-grid">
+      <div class="panel">
+        <h3>Session Notes</h3>
+        <div class="notice-list" id="noticeList">
+          <div class="notice">No rolls yet.</div>
+        </div>
+        <div class="footer-note">
+          Pistol Only chaos intentionally overrides cross-player unique guns and unique classes,
+          otherwise that chaos mode would be impossible in Apex because there are only 3 pistols.
+        </div>
+      </div>
 
-const { createClient } = supabase;
+      <div class="panel">
+        <h3>Connection</h3>
+        <div id="statusText" class="status-text">Starting...</div>
+        <div class="small" id="updatedAtText" style="margin-top: 12px;"></div>
+      </div>
+    </div>
+  </div>
 
-const supabaseClient = createClient(
-PROJECT_URL,
-PUBLISHABLE_KEY
-);
+  <script>
+    const PROJECT_URL = "https://sfareqxrytcwfbbtazaf.supabase.co";
+    const PUBLISHABLE_KEY = "sb_publishable_h9jnpKtpdETR23obQCPEjg_fE_Z3eo0";
+    const STATE_ROW_ID = 1;
 
-const legends = [
-"Bloodhound","Gibraltar","Lifeline","Pathfinder","Wraith","Bangalore",
-"Caustic","Mirage","Octane","Wattson","Crypto","Revenant","Loba",
-"Rampart","Horizon","Fuse","Valkyrie","Seer","Ash","Mad Maggie",
-"Newcastle","Vantage","Catalyst","Ballistic","Conduit","Alter"
-];
+    const { createClient } = supabase;
+    const supabaseClient = createClient(PROJECT_URL, PUBLISHABLE_KEY);
 
-const guns = [
-"R-301","Flatline","Volt","R99","Wingman","Peacekeeper",
-"Mastiff","Alternator","Hemlok","Havoc","Spitfire","Devotion"
-];
+    const PLAYER_ONE_NAME = "Dj Read";
+    const PLAYER_TWO_NAME = "Tvdb";
 
-function rand(arr){
-return arr[Math.floor(Math.random()*arr.length)];
-}
+    const CHARACTERS = [
+      "Bloodhound", "Gibraltar", "Lifeline", "Pathfinder", "Wraith", "Bangalore",
+      "Caustic", "Mirage", "Octane", "Wattson", "Crypto", "Revenant", "Loba",
+      "Rampart", "Horizon", "Fuse", "Valkyrie", "Seer", "Ash", "Mad Maggie",
+      "Newcastle", "Vantage", "Catalyst", "Ballistic", "Conduit", "Alter"
+    ];
 
-function makeRoll(){
+    const GUNS = [
+      "HAVOC Rifle", "VK-47 Flatline", "Hemlok Burst AR", "R-301 Carbine", "Nemesis Burst AR",
+      "Alternator SMG", "Prowler Burst PDW", "R-99 SMG", "Volt SMG", "C.A.R. SMG",
+      "Devotion LMG", "L-STAR EMG", "M600 Spitfire", "Rampage LMG",
+      "G7 Scout", "Triple Take", "30-30 Repeater", "Bocek Compound Bow",
+      "Charge Rifle", "Longbow DMR", "Kraber .50-Cal Sniper", "Sentinel",
+      "EVA-8 Auto", "Mastiff Shotgun", "Mozambique Shotgun", "Peacekeeper",
+      "RE-45 Auto", "P2020", "Wingman"
+    ];
 
-let p1 = rand(legends);
-let p2 = rand(legends);
+    const WEAPON_CLASS = {
+      "HAVOC Rifle": "AR",
+      "VK-47 Flatline": "AR",
+      "Hemlok Burst AR": "AR",
+      "R-301 Carbine": "AR",
+      "Nemesis Burst AR": "AR",
 
-while(p1 === p2){
-p2 = rand(legends);
-}
+      "Alternator SMG": "SMG",
+      "Prowler Burst PDW": "SMG",
+      "R-99 SMG": "SMG",
+      "Volt SMG": "SMG",
+      "C.A.R. SMG": "SMG",
 
-let g1 = rand(guns);
-let g2 = rand(guns);
+      "Devotion LMG": "LMG",
+      "L-STAR EMG": "LMG",
+      "M600 Spitfire": "LMG",
+      "Rampage LMG": "LMG",
 
-while(g2 === g1){
-g2 = rand(guns);
-}
+      "G7 Scout": "Marksman",
+      "Triple Take": "Marksman",
+      "30-30 Repeater": "Marksman",
+      "Bocek Compound Bow": "Marksman",
 
-let g3 = rand(guns);
-let g4 = rand(guns);
+      "Charge Rifle": "Sniper",
+      "Longbow DMR": "Sniper",
+      "Kraber .50-Cal Sniper": "Sniper",
+      "Sentinel": "Sniper",
 
-while(
-g3 === g4 ||
-g3 === g1 ||
-g3 === g2 ||
-g4 === g1 ||
-g4 === g2
-){
-g3 = rand(guns);
-g4 = rand(guns);
-}
+      "EVA-8 Auto": "Shotgun",
+      "Mastiff Shotgun": "Shotgun",
+      "Mozambique Shotgun": "Shotgun",
+      "Peacekeeper": "Shotgun",
 
-return {
-p1Legend:p1,
-p2Legend:p2,
-p1Guns:[g1,g2],
-p2Guns:[g3,g4]
-};
+      "RE-45 Auto": "Pistol",
+      "P2020": "Pistol",
+      "Wingman": "Pistol"
+    };
 
-}
+    const CARE_PACKAGE = [
+      "C.A.R. SMG",
+      "G7 Scout",
+      "Kraber .50-Cal Sniper"
+    ];
 
-function display(r){
+    const CHAOS_CHANCE = 0.05;
+    const GROUND_GUNS = GUNS.filter(g => !CARE_PACKAGE.includes(g));
+    const PISTOLS = GUNS.filter(g => WEAPON_CLASS[g] === "Pistol");
 
-if(!r) return;
+    let appState = null;
+    let isRolling = false;
 
-document.getElementById("result").innerHTML = `
+    function setStatus(text, isError = false) {
+      const el = document.getElementById("statusText");
+      el.textContent = text;
+      el.className = isError ? "status-text error" : "status-text";
+    }
 
-<div class="name">Dj Read</div>
-${r.p1Legend}<br>
-${r.p1Guns.join(" + ")}
+    function nowIso() {
+      return new Date().toISOString();
+    }
 
-<div class="name">Tvdb</div>
-${r.p2Legend}<br>
-${r.p2Guns.join(" + ")}
+    function fmtTime(iso) {
+      if (!iso) return "";
+      const d = new Date(iso);
+      return d.toLocaleString();
+    }
 
-`;
+    function deepClone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
 
-}
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
 
-async function loadCurrent(){
+    function sortedCombo(combo) {
+      return [...combo].sort();
+    }
 
-const {data,error} = await supabaseClient
-.from("session")
-.select("roll")
-.eq("id",1)
-.single();
+    function comboKey(combo) {
+      return sortedCombo(combo).join("||");
+    }
 
-if(error){
-document.getElementById("status").innerHTML =
-"<span class='error'>Load failed: "+error.message+"</span>";
-return;
-}
+    function combosEqual(a, b) {
+      if (!a || !b) return false;
+      return comboKey(a) === comboKey(b);
+    }
 
-display(data.roll);
+    function overlaps(a, b) {
+      const setA = new Set(a);
+      return b.some(item => setA.has(item));
+    }
 
-document.getElementById("status").innerHTML =
-"Connected.";
+    function combinations(arr, k) {
+      const results = [];
+      const current = [];
 
-}
+      function walk(start) {
+        if (current.length === k) {
+          results.push([...current]);
+          return;
+        }
 
-async function roll(){
+        for (let i = start; i <= arr.length - (k - current.length); i++) {
+          current.push(arr[i]);
+          walk(i + 1);
+          current.pop();
+        }
+      }
 
-document.getElementById("status").innerHTML =
-"Rolling...";
+      if (k <= 0 || k > arr.length) return results;
+      walk(0);
+      return results;
+    }
 
-const newRoll = makeRoll();
+    function gunCountForLegend(legend) {
+      return legend === "Ballistic" ? 3 : 2;
+    }
 
-const {error} = await supabaseClient
-.from("session")
-.update({roll:newRoll})
-.eq("id",1);
+    function hasUniqueClasses(combo) {
+      const classes = combo.map(g => WEAPON_CLASS[g]);
+      return classes.length === new Set(classes).size;
+    }
 
-if(error){
+    function isValidNormalCombo(combo, lastCombo) {
+      if (new Set(combo).size !== combo.length) return false;
+      if (!hasUniqueClasses(combo)) return false;
+      if (lastCombo && combosEqual(combo, lastCombo)) return false;
+      return true;
+    }
 
-document.getElementById("status").innerHTML =
-"<span class='error'>Update failed: "+error.message+"</span>";
+    function isValidLegendForPlayer(legend, lastLegend) {
+      return legend !== lastLegend;
+    }
 
-return;
+    function createInitialState() {
+      return {
+        version: 1,
+        lastUpdated: nowIso(),
+        legendCycle: 1,
+        gunCycle: 1,
+        chaosUsedThisGunCycle: false,
+        remainingLegends: [...CHARACTERS],
+        remainingGuns: [...GROUND_GUNS],
+        p1LastLegend: null,
+        p2LastLegend: null,
+        p1LastGuns: null,
+        p2LastGuns: null,
+        currentRoll: null,
+        notices: ["Session initialized"]
+      };
+    }
 
-}
+    function render(state) {
+      if (!state) return;
 
-document.getElementById("status").innerHTML =
-"Roll sent.";
+      document.getElementById("legendCycleValue").textContent = state.legendCycle ?? "-";
+      document.getElementById("gunCycleValue").textContent = state.gunCycle ?? "-";
+      document.getElementById("legendsLeftValue").textContent = state.remainingLegends?.length ?? "-";
+      document.getElementById("gunsLeftValue").textContent = state.remainingGuns?.length ?? "-";
+      document.getElementById("updatedAtText").textContent = state.lastUpdated
+        ? `Last update: ${fmtTime(state.lastUpdated)}`
+        : "";
 
-}
+      const roll = state.currentRoll;
+      const p1LegendEl = document.getElementById("p1Legend");
+      const p2LegendEl = document.getElementById("p2Legend");
+      const p1GunsEl = document.getElementById("p1Guns");
+      const p2GunsEl = document.getElementById("p2Guns");
+      const noticeList = document.getElementById("noticeList");
+      const chaosBanner = document.getElementById("chaosBanner");
+      const chaosText = document.getElementById("chaosText");
 
-document.getElementById("rollBtn").addEventListener(
-"click",
-roll
-);
+      if (!roll) {
+        p1LegendEl.textContent = "Waiting...";
+        p2LegendEl.textContent = "Waiting...";
+        p1GunsEl.innerHTML = "";
+        p2GunsEl.innerHTML = "";
+        noticeList.innerHTML = `<div class="notice">No rolls yet.</div>`;
+        chaosBanner.classList.remove("show");
+        return;
+      }
 
-supabaseClient
-.channel("live-roll")
-.on(
-"postgres_changes",
-{
-event:"UPDATE",
-schema:"public",
-table:"session"
-},
-(payload)=>{
-display(payload.new.roll);
-}
-)
-.subscribe();
+      p1LegendEl.textContent = roll.p1.legend;
+      p2LegendEl.textContent = roll.p2.legend;
 
-loadCurrent();
+      p1GunsEl.innerHTML = roll.p1.guns.map(g => `<div class="gun-pill">${g}</div>`).join("");
+      p2GunsEl.innerHTML = roll.p2.guns.map(g => `<div class="gun-pill">${g}</div>`).join("");
 
-</script>
+      const notices = roll.notices?.length ? roll.notices : ["Roll completed"];
+      noticeList.innerHTML = notices.map(n => `<div class="notice">${n}</div>`).join("");
 
+      if (roll.chaosMode === "swap") {
+        chaosBanner.classList.add("show");
+        chaosText.textContent = "Both players must swap guns";
+      } else if (roll.chaosMode === "pistol") {
+        chaosBanner.classList.add("show");
+        chaosText.textContent = "Pistol only";
+      } else {
+        chaosBanner.classList.remove("show");
+      }
+    }
+
+    async function loadState() {
+      const { data, error } = await supabaseClient
+        .from("session")
+        .select("roll")
+        .eq("id", STATE_ROW_ID)
+        .maybeSingle();
+
+      if (error) {
+        setStatus(`Load failed: ${error.message}`, true);
+        return null;
+      }
+
+      if (!data || !data.roll || !data.roll.version) {
+        const state = createInitialState();
+        const ok = await saveState(state);
+        if (!ok) return null;
+        return state;
+      }
+
+      return data.roll;
+    }
+
+    async function saveState(state) {
+      state.lastUpdated = nowIso();
+
+      const { error } = await supabaseClient
+        .from("session")
+        .upsert({ id: STATE_ROW_ID, roll: state });
+
+      if (error) {
+        setStatus(`Save failed: ${error.message}`, true);
+        return false;
+      }
+
+      return true;
+    }
+
+    function buildLegendPairs(state) {
+      const pairs = [];
+      const legends = state.remainingLegends || [];
+
+      for (const l1 of legends) {
+        if (!isValidLegendForPlayer(l1, state.p1LastLegend)) continue;
+
+        for (const l2 of legends) {
+          if (l1 === l2) continue;
+          if (!isValidLegendForPlayer(l2, state.p2LastLegend)) continue;
+          pairs.push([l1, l2]);
+        }
+      }
+
+      return shuffle(pairs);
+    }
+
+    function hasAnyValidLegendPair(state) {
+      return buildLegendPairs(state).length > 0;
+    }
+
+    function getValidCombos(pool, count, lastCombo) {
+      return shuffle(
+        combinations(pool, count).filter(combo => isValidNormalCombo(combo, lastCombo))
+      );
+    }
+
+    function findStandardOption(state) {
+      const gunPool = state.remainingGuns || [];
+      const legendPairs = buildLegendPairs(state);
+
+      if (!legendPairs.length) return null;
+
+      const p1Combos2 = getValidCombos(gunPool, 2, state.p1LastGuns);
+      const p1Combos3 = getValidCombos(gunPool, 3, state.p1LastGuns);
+      const p2Combos2 = getValidCombos(gunPool, 2, state.p2LastGuns);
+      const p2Combos3 = getValidCombos(gunPool, 3, state.p2LastGuns);
+
+      for (const [legend1, legend2] of legendPairs) {
+        const count1 = gunCountForLegend(legend1);
+        const count2 = gunCountForLegend(legend2);
+
+        if (gunPool.length < count1 + count2) continue;
+
+        const c1List = count1 === 3 ? p1Combos3 : p1Combos2;
+        const c2List = count2 === 3 ? p2Combos3 : p2Combos2;
+
+        for (const guns1 of c1List) {
+          for (const guns2 of c2List) {
+            if (!overlaps(guns1, guns2)) {
+              return {
+                legend1,
+                legend2,
+                guns1: [...guns1],
+                guns2: [...guns2],
+                chaosMode: null
+              };
+            }
+          }
+        }
+      }
+
+      return null;
+    }
+
+    function buildPistolChaosOption(state, legend1, legend2) {
+      const count1 = gunCountForLegend(legend1);
+      const count2 = gunCountForLegend(legend2);
+
+      if (count1 > PISTOLS.length || count2 > PISTOLS.length) {
+        return null;
+      }
+
+      let p1Options = combinations(PISTOLS, count1);
+      let p2Options = combinations(PISTOLS, count2);
+
+      const p1Filtered = p1Options.filter(c => !state.p1LastGuns || !combosEqual(c, state.p1LastGuns));
+      const p2Filtered = p2Options.filter(c => !state.p2LastGuns || !combosEqual(c, state.p2LastGuns));
+
+      if (p1Filtered.length) p1Options = p1Filtered;
+      if (p2Filtered.length) p2Options = p2Filtered;
+
+      p1Options = shuffle(p1Options);
+      p2Options = shuffle(p2Options);
+
+      if (!p1Options.length || !p2Options.length) return null;
+
+      return {
+        legend1,
+        legend2,
+        guns1: [...p1Options[0]],
+        guns2: [...p2Options[0]],
+        chaosMode: "pistol"
+      };
+    }
+
+    function buildSwapChaosOption(state, standardOption) {
+      if (standardOption.guns1.length !== standardOption.guns2.length) {
+        return null;
+      }
+
+      const swapped1 = [...standardOption.guns2];
+      const swapped2 = [...standardOption.guns1];
+
+      if (state.p1LastGuns && combosEqual(swapped1, state.p1LastGuns)) return null;
+      if (state.p2LastGuns && combosEqual(swapped2, state.p2LastGuns)) return null;
+
+      return {
+        legend1: standardOption.legend1,
+        legend2: standardOption.legend2,
+        guns1: swapped1,
+        guns2: swapped2,
+        chaosMode: "swap"
+      };
+    }
+
+    function getChaosCandidates(state, standardOption) {
+      const modes = [];
+
+      const swapOption = buildSwapChaosOption(state, standardOption);
+      if (swapOption) modes.push(swapOption);
+
+      const pistolOption = buildPistolChaosOption(state, standardOption.legend1, standardOption.legend2);
+      if (pistolOption) modes.push(pistolOption);
+
+      return shuffle(modes);
+    }
+
+    function removeItems(source, itemsToRemove) {
+      const removeSet = new Set(itemsToRemove);
+      return source.filter(item => !removeSet.has(item));
+    }
+
+    function applyCommittedRoll(state, option, notices) {
+      state.p1LastLegend = option.legend1;
+      state.p2LastLegend = option.legend2;
+      state.p1LastGuns = sortedCombo(option.guns1);
+      state.p2LastGuns = sortedCombo(option.guns2);
+
+      state.remainingLegends = removeItems(state.remainingLegends, [option.legend1, option.legend2]);
+      state.remainingGuns = removeItems(state.remainingGuns, [...new Set([...option.guns1, ...option.guns2])]);
+
+      if (option.chaosMode) {
+        state.chaosUsedThisGunCycle = true;
+      }
+
+      state.currentRoll = {
+        timestamp: nowIso(),
+        chaosMode: option.chaosMode || null,
+        p1: {
+          name: PLAYER_ONE_NAME,
+          legend: option.legend1,
+          guns: [...option.guns1]
+        },
+        p2: {
+          name: PLAYER_TWO_NAME,
+          legend: option.legend2,
+          guns: [...option.guns2]
+        },
+        notices: [...notices]
+      };
+
+      state.notices = [...notices];
+    }
+
+    function simulateFutureRollExists(currentState, committedOption) {
+      const temp = deepClone(currentState);
+      applyCommittedRoll(temp, committedOption, []);
+
+      if (temp.remainingLegends.length < 2 || !hasAnyValidLegendPair(temp)) {
+        temp.remainingLegends = [...CHARACTERS];
+      }
+
+      return !!findStandardOption(temp);
+    }
+
+    function rollEngine(state) {
+      const working = deepClone(state);
+      const notices = [];
+      let guard = 0;
+
+      while (guard < 10) {
+        guard += 1;
+
+        if (working.remainingLegends.length < 2 || !hasAnyValidLegendPair(working)) {
+          working.remainingLegends = [...CHARACTERS];
+          working.legendCycle += 1;
+          notices.push("Legend cycle reset");
+        }
+
+        let standardOption = findStandardOption(working);
+
+        if (!standardOption) {
+          working.remainingGuns = [...GROUND_GUNS];
+          working.gunCycle += 1;
+          working.chaosUsedThisGunCycle = false;
+          notices.push("Gun cycle reset");
+          continue;
+        }
+
+        let finalOption = standardOption;
+        const chaosCandidates = getChaosCandidates(working, standardOption);
+        let triggerChaos = Math.random() < CHAOS_CHANCE;
+
+        if (!working.chaosUsedThisGunCycle && !triggerChaos) {
+          const futureExists = simulateFutureRollExists(working, standardOption);
+          if (!futureExists && chaosCandidates.length) {
+            triggerChaos = true;
+            notices.push("Guaranteed chaos triggered before gun cycle reset");
+          }
+        }
+
+        if (triggerChaos && chaosCandidates.length) {
+          finalOption = chaosCandidates[0];
+          if (finalOption.chaosMode === "swap") {
+            notices.push("Chaos round: swap guns");
+          } else if (finalOption.chaosMode === "pistol") {
+            notices.push("Chaos round: pistol only");
+          }
+        }
+
+        applyCommittedRoll(working, finalOption, notices.length ? notices : ["Roll completed"]);
+        return working;
+      }
+
+      throw new Error("Could not generate a valid roll after multiple reset attempts.");
+    }
+
+    async function performRoll() {
+      if (isRolling) return;
+
+      isRolling = true;
+      document.getElementById("rollBtn").disabled = true;
+      setStatus("Rolling...");
+
+      try {
+        const latest = await loadState();
+        if (!latest) throw new Error("Could not load session state.");
+
+        const nextState = rollEngine(latest);
+        const ok = await saveState(nextState);
+        if (!ok) throw new Error("Could not save next session state.");
+
+        appState = nextState;
+        render(appState);
+        setStatus("Roll sent.");
+      } catch (err) {
+        console.error(err);
+        setStatus(err.message || "Roll failed.", true);
+      } finally {
+        isRolling = false;
+        document.getElementById("rollBtn").disabled = false;
+      }
+    }
+
+    async function resetAll() {
+      const fresh = createInitialState();
+      const ok = await saveState(fresh);
+      if (ok) {
+        appState = fresh;
+        render(appState);
+        setStatus("Session reset.");
+      }
+    }
+
+    async function boot() {
+      setStatus("Connecting...");
+
+      const state = await loadState();
+      if (!state) return;
+
+      appState = state;
+      render(appState);
+      setStatus("Connected.");
+    }
+
+    document.getElementById("rollBtn").addEventListener("click", performRoll);
+    document.getElementById("resetAllBtn").addEventListener("click", resetAll);
+
+    supabaseClient
+      .channel("apex-duo-live-state")
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "session" },
+        (payload) => {
+          if (payload.new && payload.new.roll) {
+            appState = payload.new.roll;
+            render(appState);
+            setStatus("Live update received.");
+          }
+        }
+      )
+      .subscribe((status) => {
+        console.log("Realtime status:", status);
+      });
+
+    boot();
+  </script>
 </body>
 </html>
