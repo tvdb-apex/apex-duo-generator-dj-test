@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ZAkBpk2ricM7MNiQGrxcRaVJr99Rxn826KwK7S2qSfZ3THNTiWLWlpzBvakPUoL-ASYPoX2cQUwXIifiQfRtOo6clTYebg9587agI08R3whOdZqpImZVW_CkaCHHdorCP3K5DdrGw9Vxxb9E33THJb44bizuVZp9Cf176fMtz2fj4Dvs2CY7BFygX5tQoyJDmHS4p77LPbHApaPSnZ781LxqdMck8I7H_tbdQPFP-dX804kUrLa23zxQ-2UucRuE_QxrQVlgCnb6nU48IXpURg" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=sufLlnwrwd6zr8-_YLdl9gNkAfR7KKSgJWgekLukKJjetmOI-709S1QKJgU2a15KQ_AJB33wUX6GoKoXNwxUW8WIsucV0gj6P909fdaLeXWTtzNIc_a2KS53Mg92yjHqW2GkhjcehpJtZ4FENAV_EKJClQks3XrI6r_EjguLLXjIMYREutLnit1QsSbc2k1wOpOww7dUYm8C2iH8-2qfBnyky3LuBBGysQolMFHccfvDf5bjOpTNETLgDAV61K7LjK6ueOE_TNclzxTeyS9iHg" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -1293,18 +1293,20 @@
       noticeList.innerHTML = notices.map(n => `<div class="notice">${n}</div>`).join("");
 
       if (roll.chaosMode === "swap") {
-        chaosBanner.classList.add("show");
         chaosText.textContent = "Both players must swap guns";
       } else if (roll.chaosMode === "pistol") {
-        chaosBanner.classList.add("show");
         chaosText.textContent = "Pistol only";
-      } else {
-        chaosBanner.classList.remove("show");
       }
 
       if (animated) {
+        chaosBanner.classList.remove("show");
         revealSequence(roll);
       } else {
+        if (roll.chaosMode === "swap" || roll.chaosMode === "pistol") {
+          chaosBanner.classList.add("show");
+        } else {
+          chaosBanner.classList.remove("show");
+        }
         renderFinalCard("p1", roll.p1);
         renderFinalCard("p2", roll.p2);
         document.getElementById("revealStage").textContent = "Loadouts ready";
@@ -1393,7 +1395,19 @@
       await new Promise(r => setTimeout(r, 420));
 
       if (roll.chaosMode) {
+        await new Promise(r => setTimeout(r, 180));
+
         const blast = document.getElementById("chaosBlast");
+        const chaosBanner = document.getElementById("chaosBanner");
+        const chaosText = document.getElementById("chaosText");
+
+        if (roll.chaosMode === "swap") {
+          chaosText.textContent = "Both players must swap guns";
+        } else {
+          chaosText.textContent = "Pistol only";
+        }
+
+        // Trigger sound and visuals at the exact same moment for surprise impact
         blast.classList.remove("show");
         void blast.offsetWidth;
         blast.classList.add("show");
@@ -1401,6 +1415,10 @@
         document.body.classList.remove("chaos-flash");
         void document.body.offsetWidth;
         document.body.classList.add("chaos-flash");
+
+        chaosBanner.classList.remove("show");
+        void chaosBanner.offsetWidth;
+        chaosBanner.classList.add("show");
 
         playChaosExplosion();
 
