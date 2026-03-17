@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=VPOpgPDguwom1NJYLX7aKuTL5JekCJInlwIu1934YwXz_qeJYl31_RZyllh8uWwbRhWJehBhPNgKM8j1iNz3Pz_cl--EOyGUlCdfUSblCJ7fP5N2yisJ9gxpVT2wa7wNtPsJjmINES3ooLk7GmB-3OK-GODNs3eOFlOkIv_GnuLU2siHl1LQE_0VpfpSmE3ouaWrVe2JqQJnRN9s6FFPOAD4POZ1INUk71RhgnYeaGwAcq95CNzsNO4oeuWDy1D6-cgIOCfc4tLTNfP1ffkshg" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=GiF_FD3a4YBJd3V8ZJJ0xA4RxfWH1TDeufzg3Eb1ZoWgHCXJalkSdvfvaceWg-mmVTYnDm_S_o57oYFmKSdL0qmIxbL21fxNMEOBEsdtcKVxHuE2usT5oKeJx2l-q5fwb51ATCSThWWX8da6ZN3FVqeIu7k6f_lQ9rgWdsAvCg2vJpWhaSvpejMOQcbOJTtRNweKLRPBROgQaiKKHAy1cHNRI4GIlXi-f3MqzOS_ou0wgWdDUSrpZGWfWOxtmAdURyDPNn_T4zvrIMgXUO7Q3Q" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -531,6 +531,79 @@
       line-height:1.55;
     }
 
+
+    .joker-overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:10000;
+      pointer-events:none;
+      background:radial-gradient(circle, rgba(95,255,120,.08) 0%, rgba(120,0,160,.08) 40%, transparent 70%);
+    }
+
+    .joker-overlay.show{
+      display:flex;
+      animation:jokerFade .95s ease-out forwards;
+    }
+
+    .joker-card{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      transform:scale(.75);
+      filter:drop-shadow(0 0 22px rgba(95,255,120,.35)) drop-shadow(0 0 42px rgba(150,0,210,.18));
+      animation:jokerPop .95s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    .joker-card img{
+      width:min(34vw, 360px);
+      max-width:360px;
+      height:auto;
+      object-fit:contain;
+    }
+
+    .joker-text{
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#c7ffd7;
+      text-shadow:0 0 12px rgba(95,255,120,.35);
+    }
+
+    body.joker-flash::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9997;
+      background:radial-gradient(circle at center, rgba(95,255,120,.14), rgba(110,0,170,.12) 45%, transparent 72%);
+      animation:jokerFlash .75s ease-out forwards;
+    }
+
+    @keyframes jokerPop{
+      0%{opacity:0; transform:scale(.6) rotate(-6deg)}
+      35%{opacity:1; transform:scale(1.04) rotate(2deg)}
+      100%{opacity:0; transform:scale(1) rotate(0deg)}
+    }
+
+    @keyframes jokerFade{
+      0%{opacity:0}
+      20%{opacity:1}
+      100%{opacity:0}
+    }
+
+    @keyframes jokerFlash{
+      0%{opacity:0}
+      20%{opacity:1}
+      100%{opacity:0}
+    }
+
+
     @media (max-width:1080px){
       .statusbar,.main-grid,.meta-grid,.pool-grid{grid-template-columns:1fr}
       .card-content{grid-template-columns:1fr}
@@ -551,6 +624,7 @@
 </head>
 <body>
   <div class="chaos-blast" id="chaosBlast"></div>
+  <div class="joker-overlay" id="jokerOverlay"><div class="joker-card"><img src="assets/chaos/joker.png" alt="Joker Octane"><div class="joker-text">Gotcha.</div></div></div>
 
   <div class="wrap">
     <div class="topbar">
@@ -815,7 +889,8 @@
       bg: new Audio("assets/sounds/background.mp3?v=3"),
       click: new Audio("assets/sounds/ui-sound.mp3?v=3"),
       whoosh: new Audio("assets/sounds/woosh.mp3?v=3"),
-      explosion: new Audio("assets/sounds/explosion.mp3?v=3")
+      explosion: new Audio("assets/sounds/explosion.mp3?v=3"),
+      joker: new Audio("assets/sounds/joker-laugh.mp3?v=1")
     };
 
     sounds.bg.loop = true;
@@ -823,6 +898,7 @@
     sounds.click.volume = 0.6;
     sounds.whoosh.volume = 0.7;
     sounds.explosion.volume = 0.9;
+    sounds.joker.volume = 0.85;
 
     async function startAudioIfNeeded() {
       if (audioStarted || !soundEnabled) return;
@@ -848,6 +924,61 @@
       if (!soundEnabled) return;
       sounds.explosion.currentTime = 0;
       sounds.explosion.play().catch(() => {});
+    }
+
+    function playJokerLaugh() {
+      if (!soundEnabled) return;
+      sounds.joker.currentTime = 0;
+      sounds.joker.play().catch(() => {});
+    }
+
+    function triggerJokerChaosImpact() {
+      const overlay = document.getElementById("jokerOverlay");
+      overlay.classList.remove("show");
+      void overlay.offsetWidth;
+      overlay.classList.add("show");
+
+      document.body.classList.remove("joker-flash");
+      void document.body.offsetWidth;
+      document.body.classList.add("joker-flash");
+
+      document.body.classList.remove("chaos-shake");
+      void document.body.offsetWidth;
+      document.body.classList.add("chaos-shake");
+
+      playJokerLaugh();
+
+      setTimeout(() => {
+        overlay.classList.remove("show");
+        document.body.classList.remove("joker-flash");
+        document.body.classList.remove("chaos-shake");
+      }, 950);
+    }
+
+    function animateSwapToFinal(p1FinalGuns, p2FinalGuns) {
+      const p1Wrap = document.getElementById("p1Weapons");
+      const p2Wrap = document.getElementById("p2Weapons");
+
+      p1Wrap.style.transition = "transform .28s ease, opacity .28s ease";
+      p2Wrap.style.transition = "transform .28s ease, opacity .28s ease";
+
+      p1Wrap.style.transform = "translateX(34px)";
+      p2Wrap.style.transform = "translateX(-34px)";
+      p1Wrap.style.opacity = "0.18";
+      p2Wrap.style.opacity = "0.18";
+
+      setTimeout(() => {
+        renderWeaponRows("p1Weapons", p1FinalGuns);
+        p1FinalGuns.forEach((gun, idx) => setWeaponImage(`p1Weapons_img_${idx}`, gun));
+
+        renderWeaponRows("p2Weapons", p2FinalGuns);
+        p2FinalGuns.forEach((gun, idx) => setWeaponImage(`p2Weapons_img_${idx}`, gun));
+
+        p1Wrap.style.transform = "translateX(0)";
+        p2Wrap.style.transform = "translateX(0)";
+        p1Wrap.style.opacity = "1";
+        p2Wrap.style.opacity = "1";
+      }, 280);
     }
 
     function triggerChaosImpact() {
@@ -1357,8 +1488,10 @@
         } else {
           chaosBanner.classList.remove("show");
         }
-        renderFinalCard("p1", roll.p1);
-        renderFinalCard("p2", roll.p2);
+        const p1Reveal = (roll.chaosMode && roll.previewP1Guns) ? { ...roll.p1, guns: roll.previewP1Guns } : roll.p1;
+      renderFinalCard("p1", p1Reveal);
+        const p2Reveal = (roll.chaosMode && roll.previewP2Guns) ? { ...roll.p2, guns: roll.previewP2Guns } : roll.p2;
+      renderFinalCard("p2", p2Reveal);
         document.getElementById("revealStage").textContent = "Loadouts ready";
       }
     }
@@ -1456,15 +1589,22 @@
         document.getElementById("revealStage").textContent = "Wait for it...";
         await new Promise(r => setTimeout(r, 220));
 
-        // Hit sound + banner + red blast all together after a tiny silence for impact
-        triggerChaosImpact();
+        if (roll.chaosMode === "swap") {
+          triggerJokerChaosImpact();
+        } else {
+          triggerChaosImpact();
+        }
 
         document.getElementById("revealStage").textContent =
           roll.chaosMode === "swap" ? "CHAOS: Swap Weapons" : "CHAOS: Pistols Only";
 
+        if (roll.chaosMode === "swap" && roll.previewP1Guns && roll.previewP2Guns) {
+          await new Promise(r => setTimeout(r, 220));
+          animateSwapToFinal(roll.p1.guns, roll.p2.guns);
+        }
+
         if (roll.chaosMode === "pistol" && roll.previewP1Guns && roll.previewP2Guns) {
           await new Promise(r => setTimeout(r, 120));
-
           renderWeaponRows("p1Weapons", roll.previewP1Guns);
           roll.previewP1Guns.forEach((gun, idx) => setWeaponImage(`p1Weapons_img_${idx}`, gun));
 
