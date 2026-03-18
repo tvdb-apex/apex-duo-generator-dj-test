@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=WGVMDlkhsfc743M76CFguSGzjRYbxmfNryQN2Hzn5smw9CxJEnVOhxSE7cVfUm0dCxdE0w7N80-JO9sW9QYlkJH3n7uLylSEJ2tDO8MhEiSfJY1nhfOwsBCjKsNq8AEhDccsMgiMITL7Mul8vfvAvefY11ZVaZrDJjD2pJjnyW9Y6bgJWJBEZ7NTtXcfnlPG21H4c7jY1ClkdgY9SzN7PH1EGrWFlo2OBmrYCEVbSLkY_NiG1BJg-pzhyTxqezFpMyjvvDAzL0hWOuoCHSOHnA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=UCODIAG8UTkX3MMgCoxFbQJZMXclUMHbCmH0bO_O15P4cznQOclgyxmX0wrfKBXmilBkGYwZ57kPJ6ynPHw8Jt7TVoSVYiMSZ2oFhdyYuK-U1wi5A1Rae_32b6-bxkteQzbZKYcV6j4xo-MW5qmTvBp8ZatrHXsdxjO-DwW70OQqEckGU-YBGWAyzrBpJOFlJ1qseHBUtLtaYDKYCgTfOfTyxCLTz4MG3xu7s-j2NAS2KATOHa5U5deVgSsc4q3W6Xgx2nlCyzMPVe-rMX6vtA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -792,36 +792,16 @@
   </div>
 
   <script>
-    async function loadSupabaseGlobal() {
-      const loadingText = document.getElementById("appLoadingText");
-      const urls = [
-        "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2",
-        "https://unpkg.com/@supabase/supabase-js@2"
-      ];
+(function(){
+  function failStart(message){
+    console.error(message);
+    const loadingText = document.getElementById("appLoadingText");
+    if (loadingText) loadingText.textContent = message;
+  }
 
-      for (const url of urls) {
-        try {
-          if (loadingText) loadingText.textContent = "Loading connection...";
-          await new Promise((resolve, reject) => {
-            const existing = document.querySelector(`script[data-supabase-src="${url}"]`);
-            if (existing && window.supabase) return resolve();
-            const s = document.createElement("script");
-            s.src = url;
-            s.defer = true;
-            s.dataset.supabaseSrc = url;
-            s.onload = () => resolve();
-            s.onerror = () => reject(new Error(`Failed to load ${url}`));
-            document.head.appendChild(s);
-          });
-          if (window.supabase && window.supabase.createClient) return window.supabase;
-        } catch (_) {}
-      }
-      throw new Error("Could not load Supabase library.");
-    }
+  function startApp(){
 
-    (async () => {
-      const { createClient } = await loadSupabaseGlobal();
-
+    
     // =========================
     // SUPABASE SETTINGS
     // =========================
@@ -830,7 +810,7 @@
     const STATE_ROW_ID = 1;
     const CHAOS_CHANCE = 0.05;
 
-    const supabaseClient = createClient(PROJECT_URL, PUBLISHABLE_KEY);
+    const supabaseClient = window.supabase.createClient(PROJECT_URL, PUBLISHABLE_KEY);
 
     // =========================
     // GAME DATA
@@ -1921,8 +1901,6 @@
 
     async function boot() {
       setStatus("Connecting...");
-      const loadingText = document.getElementById("appLoadingText");
-      if (loadingText) loadingText.textContent = "Syncing session...";
       const state = await loadState();
       if (!state) return;
       appState = state;
@@ -2003,18 +1981,27 @@
       )
       .subscribe();
 
-    if (document.readyState === "loading") {
-      window.addEventListener("DOMContentLoaded", boot);
-    } else {
-      boot();
-    }
-    })().catch((err) => {
-      console.error(err);
-      const loadingEl = document.getElementById("appLoading");
-      const loadingText = document.getElementById("appLoadingText");
-      if (loadingText) loadingText.textContent = "Could not start app.";
-      if (loadingEl) loadingEl.style.display = "flex";
-    });
-  </script>
+    window.addEventListener("DOMContentLoaded", boot);
+  
+  }
+
+  function loadSupabase(){
+    const s = document.createElement("script");
+    s.src = "https://unpkg.com/@supabase/supabase-js@2";
+    s.defer = true;
+    s.onload = () => {
+      if (!window.supabase || !window.supabase.createClient) {
+        failStart("Supabase failed to load.");
+        return;
+      }
+      startApp();
+    };
+    s.onerror = () => failStart("Could not load connection library.");
+    document.head.appendChild(s);
+  }
+
+  loadSupabase();
+})();
+</script>
 </body>
 </html>
