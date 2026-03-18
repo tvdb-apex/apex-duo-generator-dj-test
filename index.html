@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ZaeZhMCS_LnxQl2URdYU5bJfqORiWu1CVdb24c3uSHseI-6XwYeGZ4rudG_EyWhOoQ-4SfrpWHEre5sQs7lE8I9JF6TUJyNmCbkfttHTshNZ1NdH4a7idhgPEUfUHPVoUD537DWTGlcmziBG-ZGaHXnf1yhwSahAmDPhBIIXL0L3KAsudBWcofQ_FLDYM6NZesZDPS8zPO1Iy40i_zkI3cESvcVTfBwPyIOy77bxw7ZSl41dlrldDnRbJ2RkQ92thNxJneEuHwYtEymzANTxEQ" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ivVWM-0tL5jse9kjd09FyMzZzvnQae1Qv1R_QJDCCohkBGv5_zh1i0o7RIvMFX2zSQTkg4qBWcIHWzj_8R3PDspdpVvAV5oP3ioMp-9n-sUturk9zu2GHk8shUTuTp9ZkQA8BPPPcZJMtOZvlvlrE4CgSwnLB0w-rpvMkl4Fr6JX5lMcEReamDmX8aOQT2mmFYntGdhZgSFlf_XrZwukPbKnGn93Tl8djscVJ6k3y_A4dN8tDQtpR5UJ6ds2Z6knTGn3EAstASu3YeTP4Zoswg" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -620,7 +620,49 @@
       .controls,.secondary-row{width:100%}
       .controls button,.secondary-row button{flex:1 1 auto}
     }
-  </style>
+  
+/* =========================
+   MOBILE OPTIMIZATION
+========================= */
+@media (max-width: 768px) {
+  body { padding: 10px; }
+
+  h1 { font-size: 22px !important; text-align: center; }
+
+  .controls { flex-direction: column !important; gap: 10px !important; }
+
+  button {
+    width: 100% !important;
+    height: 50px !important;
+    font-size: 16px !important;
+  }
+
+  .cards { flex-direction: column !important; gap: 16px !important; }
+
+  .card { width: 100% !important; padding: 12px !important; }
+
+  .legend-img { height: 120px !important; object-fit: contain; }
+
+  .weapon-row img { height: 40px !important; }
+
+  .chaos-banner { font-size: 18px !important; padding: 10px !important; }
+
+  #jokerOverlay img { width: 180px !important; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 18px !important; }
+
+  .legend-img { height: 90px !important; }
+
+  .weapon-row img { height: 32px !important; }
+
+  button { height: 44px !important; font-size: 14px !important; }
+
+  #jokerOverlay img { width: 140px !important; }
+}
+
+</style>
 </head>
 <body>
   <div class="chaos-blast" id="chaosBlast"></div>
