@@ -4,8 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
+  <meta name="theme-color" content="#070a0f">
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=ivVWM-0tL5jse9kjd09FyMzZzvnQae1Qv1R_QJDCCohkBGv5_zh1i0o7RIvMFX2zSQTkg4qBWcIHWzj_8R3PDspdpVvAV5oP3ioMp-9n-sUturk9zu2GHk8shUTuTp9ZkQA8BPPPcZJMtOZvlvlrE4CgSwnLB0w-rpvMkl4Fr6JX5lMcEReamDmX8aOQT2mmFYntGdhZgSFlf_XrZwukPbKnGn93Tl8djscVJ6k3y_A4dN8tDQtpR5UJ6ds2Z6knTGn3EAstASu3YeTP4Zoswg" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=p5yKYVniKSbcnUPm86mtd6QpMi4qvDYwCq5g0_UOff2Vvgma5d_X4jb2FT59oomP98EaRZO841NdqcDgVTAaTHG9g25nAxYRaa6Gs5HSMCxjLt-HjTJgLYe1oYSzS-io-NRYBzufW-1mo-KGOYrFkptLZTvBBXBqULpRSukN8rVmGyhbQsWgxywsRyOUWTPMHp4DyP1ngCDunSJpIzUvQe2kwb7bR_9HrzH09SjcSWGe4Km00j3svhnqdEJjgv5MBUtkRy5badXKWK92TOtfSg" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -665,6 +666,10 @@
 </style>
 </head>
 <body>
+  <div id="appLoading" style="position:fixed;inset:0;background:#070a0f;color:#f6f8fb;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:99999;font-family:Arial,sans-serif;">
+    <div style="font-size:22px;font-weight:800;margin-bottom:10px;">Apex Duo Challenge</div>
+    <div style="font-size:14px;color:#97a4b5;">Loading...</div>
+  </div>
   <div class="chaos-blast" id="chaosBlast"></div>
   <div class="joker-overlay" id="jokerOverlay"><div class="joker-card"><img src="assets/chaos/joker.png" alt="Joker Octane"><div class="joker-text">Gotcha.</div></div></div>
 
@@ -935,11 +940,16 @@
       joker: new Audio("assets/sounds/joker-laugh.mp3?v=1")
     };
 
+    sounds.bg.preload = "none";
+    sounds.click.preload = "none";
+    sounds.whoosh.preload = "none";
+    sounds.explosion.preload = "none";
+
     sounds.bg.loop = true;
-    sounds.bg.volume = 0.2;
-    sounds.click.volume = 0.6;
-    sounds.whoosh.volume = 0.7;
-    sounds.explosion.volume = 0.9;
+    sounds.bg.volume = 0.16;
+    sounds.click.volume = 0.55;
+    sounds.whoosh.volume = 0.65;
+    sounds.explosion.volume = 0.85;
     sounds.joker.volume = 0.85;
 
     async function startAudioIfNeeded() {
@@ -1059,7 +1069,7 @@
       }, 1350);
     }
 
-    document.addEventListener("click", startAudioIfNeeded, { once: true });
+    document.addEventListener("pointerdown", startAudioIfNeeded, { once: true });
 
     // =========================
     // HELPERS
@@ -1451,7 +1461,7 @@
 
       wrap.innerHTML = `
         <img
-          class="legend-image glow"
+          class="legend-image glow" decoding="async"
           src="assets/legends/${file}"
           alt="${legendName}"
           onerror="this.parentElement.innerHTML='<div class=&quot;legend-fallback&quot;>${legendName}</div>'"
@@ -1470,7 +1480,7 @@
 
       holder.innerHTML = `
         <img
-          class="weapon-thumb"
+          class="weapon-thumb" decoding="async"
           src="assets/weapons/${file}"
           alt="${gunName}"
           onerror="this.parentElement.textContent='IMG'"
@@ -1494,7 +1504,11 @@
     }
 
     function render(state, animated = false) {
-      if (!state) return;
+      if (!state) {
+        const loadingEl = document.getElementById("appLoading");
+        if (loadingEl) loadingEl.innerHTML = '<div style="font-size:18px;font-weight:800;margin-bottom:8px;">Load failed</div><div style="font-size:13px;color:#97a4b5;">Try refreshing or opening again.</div>';
+        return;
+      }
 
       document.getElementById("legendCycleValue").textContent = state.legendCycle ?? "-";
       document.getElementById("gunCycleValue").textContent = state.gunCycle ?? "-";
@@ -1750,10 +1764,16 @@
     async function boot() {
       setStatus("Connecting...");
       const state = await loadState();
-      if (!state) return;
+      if (!state) {
+        const loadingEl = document.getElementById("appLoading");
+        if (loadingEl) loadingEl.innerHTML = '<div style="font-size:18px;font-weight:800;margin-bottom:8px;">Load failed</div><div style="font-size:13px;color:#97a4b5;">Try refreshing or opening again.</div>';
+        return;
+      }
       appState = state;
       lastRenderedTimestamp = state.lastUpdated || null;
       render(appState, false);
+      const loadingEl = document.getElementById("appLoading");
+      if (loadingEl) loadingEl.remove();
       setStatus("Connected.");
     }
 
@@ -1801,7 +1821,7 @@
       )
       .subscribe();
 
-    boot();
+    window.addEventListener("DOMContentLoaded", boot);
   </script>
 </body>
 </html>
