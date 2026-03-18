@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=TmfVH2jI_1S1Hy0nNPa9Y9fMElNlLr8DAR4mqhx_FA9J8oJ4FVqqQahtril5iONIUSvq8xE1pfEYzzO1lYcVZxK134dnoVQViIzC77m7TojTmJJxOFDLtkZcjVJRkNIy8VRQ8W0JefmYkjB_O3Ulvah_5m37w9RaGSRsPd1fodz94kSj9nCI-jBbwpMTJXuB1PAVM_sXaeffqNsfikhwilS1_1UR88Pwe8WxJuNezbwVILVPyHt1EtAVZJVvC5_4_Wt02fHpMMrxBBNlWUqtnA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -531,6 +531,79 @@
       line-height:1.55;
     }
 
+
+    .joker-overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:10000;
+      pointer-events:none;
+      background:radial-gradient(circle, rgba(95,255,120,.08) 0%, rgba(120,0,160,.08) 40%, transparent 70%);
+    }
+
+    .joker-overlay.show{
+      display:flex;
+      animation:jokerFade 1.9s ease-out forwards;
+    }
+
+    .joker-card{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+      transform:scale(.75);
+      filter:drop-shadow(0 0 22px rgba(95,255,120,.35)) drop-shadow(0 0 42px rgba(150,0,210,.18));
+      animation:jokerPop 1.75s cubic-bezier(.2,.8,.2,1) forwards;
+    }
+
+    .joker-card img{
+      width:min(48vw, 520px);
+      max-width:520px;
+      height:auto;
+      object-fit:contain;
+    }
+
+    .joker-text{
+      font-size:18px;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:#c7ffd7;
+      text-shadow:0 0 12px rgba(95,255,120,.35);
+    }
+
+    body.joker-flash::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      z-index:9997;
+      background:radial-gradient(circle at center, rgba(95,255,120,.14), rgba(110,0,170,.12) 45%, transparent 72%);
+      animation:jokerFlash 1.5s ease-out forwards;
+    }
+
+    @keyframes jokerPop{
+      0%{opacity:0; transform:scale(.6) rotate(-6deg)}
+      35%{opacity:1; transform:scale(1.04) rotate(2deg)}
+      100%{opacity:0; transform:scale(1) rotate(0deg)}
+    }
+
+    @keyframes jokerFade{
+      0%{opacity:0}
+      20%{opacity:1}
+      100%{opacity:0}
+    }
+
+    @keyframes jokerFlash{
+      0%{opacity:0}
+      20%{opacity:1}
+      100%{opacity:0}
+    }
+
+
     @media (max-width:1080px){
       .statusbar,.main-grid,.meta-grid,.pool-grid{grid-template-columns:1fr}
       .card-content{grid-template-columns:1fr}
@@ -551,6 +624,7 @@
 </head>
 <body>
   <div class="chaos-blast" id="chaosBlast"></div>
+  <div class="joker-overlay" id="jokerOverlay"><div class="joker-card"><img src="assets/chaos/joker.png" alt="Joker Octane"><div class="joker-text">Gotcha.</div></div></div>
 
   <div class="wrap">
     <div class="topbar">
@@ -815,7 +889,8 @@
       bg: new Audio("assets/sounds/background.mp3?v=3"),
       click: new Audio("assets/sounds/ui-sound.mp3?v=3"),
       whoosh: new Audio("assets/sounds/woosh.mp3?v=3"),
-      explosion: new Audio("assets/sounds/explosion.mp3?v=3")
+      explosion: new Audio("assets/sounds/explosion.mp3?v=3"),
+      joker: new Audio("assets/sounds/joker-laugh.mp3?v=1")
     };
 
     sounds.bg.loop = true;
@@ -823,6 +898,7 @@
     sounds.click.volume = 0.6;
     sounds.whoosh.volume = 0.7;
     sounds.explosion.volume = 0.9;
+    sounds.joker.volume = 0.85;
 
     async function startAudioIfNeeded() {
       if (audioStarted || !soundEnabled) return;
@@ -848,6 +924,67 @@
       if (!soundEnabled) return;
       sounds.explosion.currentTime = 0;
       sounds.explosion.play().catch(() => {});
+    }
+
+    function playJokerLaugh() {
+      if (!soundEnabled) return;
+      sounds.joker.currentTime = 0;
+      sounds.joker.play().catch(() => {});
+    }
+
+    function triggerJokerChaosImpact() {
+      const overlay = document.getElementById("jokerOverlay");
+      overlay.classList.remove("show");
+      void overlay.offsetWidth;
+      overlay.classList.add("show");
+
+      document.body.classList.remove("joker-flash");
+      void document.body.offsetWidth;
+      document.body.classList.add("joker-flash");
+
+      document.body.classList.remove("chaos-shake");
+      void document.body.offsetWidth;
+      document.body.classList.add("chaos-shake");
+
+      playJokerLaugh();
+
+      setTimeout(() => {
+        overlay.classList.remove("show");
+        document.body.classList.remove("joker-flash");
+        document.body.classList.remove("chaos-shake");
+      }, 1900);
+    }
+
+    function animateSwapToFinal(p1FinalGuns, p2FinalGuns) {
+      const p1Wrap = document.getElementById("p1Weapons");
+      const p2Wrap = document.getElementById("p2Weapons");
+
+      document.getElementById("revealStage").textContent = "Swapping loadouts...";
+
+      p1Wrap.style.transition = "transform .95s ease, opacity .95s ease, filter .95s ease";
+      p2Wrap.style.transition = "transform .95s ease, opacity .95s ease, filter .95s ease";
+
+      p1Wrap.style.transform = "translateX(120px) scale(0.92) rotate(3deg)";
+      p2Wrap.style.transform = "translateX(-120px) scale(0.92) rotate(-3deg)";
+      p1Wrap.style.opacity = "0.05";
+      p2Wrap.style.opacity = "0.05";
+      p1Wrap.style.filter = "drop-shadow(0 0 18px rgba(140,255,120,0.5))";
+      p2Wrap.style.filter = "drop-shadow(0 0 18px rgba(180,80,255,0.5))";
+
+      setTimeout(() => {
+        renderWeaponRows("p1Weapons", p1FinalGuns);
+        p1FinalGuns.forEach((gun, idx) => setWeaponImage(`p1Weapons_img_${idx}`, gun));
+
+        renderWeaponRows("p2Weapons", p2FinalGuns);
+        p2FinalGuns.forEach((gun, idx) => setWeaponImage(`p2Weapons_img_${idx}`, gun));
+
+        p1Wrap.style.transform = "translateX(0) scale(1) rotate(0deg)";
+        p2Wrap.style.transform = "translateX(0) scale(1) rotate(0deg)";
+        p1Wrap.style.opacity = "1";
+        p2Wrap.style.opacity = "1";
+        p1Wrap.style.filter = "none";
+        p2Wrap.style.filter = "none";
+      }, 950);
     }
 
     function triggerChaosImpact() {
@@ -877,7 +1014,7 @@
         blast.classList.remove("show");
         document.body.classList.remove("chaos-flash");
         document.body.classList.remove("chaos-shake");
-      }, 1000);
+      }, 1350);
     }
 
     document.addEventListener("click", startAudioIfNeeded, { once: true });
@@ -1145,7 +1282,7 @@
       return source.filter(item => !removeSet.has(item));
     }
 
-    function applyCommittedRoll(state, option, notices) {
+    function applyCommittedRoll(state, option, notices, previewOption = null) {
       state.p1LastLegend = option.legend1;
       state.p2LastLegend = option.legend2;
       state.p1LastGuns = sortedCombo(option.guns1);
@@ -1161,6 +1298,8 @@
         chaosMode: option.chaosMode || null,
         p1: { name: "Dj Read", legend: option.legend1, guns: [...option.guns1] },
         p2: { name: "Tvdb", legend: option.legend2, guns: [...option.guns2] },
+        previewP1Guns: previewOption ? [...previewOption.guns1] : null,
+        previewP2Guns: previewOption ? [...previewOption.guns2] : null,
         notices: [...notices]
       };
 
@@ -1169,7 +1308,7 @@
 
     function simulateFutureRollExists(currentState, committedOption) {
       const temp = deepClone(currentState);
-      applyCommittedRoll(temp, committedOption, []);
+      applyCommittedRoll(temp, committedOption, [], null);
 
       if (temp.remainingLegends.length < 2 || !hasAnyValidLegendPair(temp)) {
         temp.remainingLegends = [...CHARACTERS];
@@ -1220,7 +1359,12 @@
           if (finalOption.chaosMode === "pistol") notices.push("Chaos round: pistol only");
         }
 
-        applyCommittedRoll(working, finalOption, notices.length ? notices : ["Roll completed"]);
+        const previewOption =
+          finalOption.chaosMode === "pistol" ? standardOption :
+          finalOption.chaosMode === "swap" ? standardOption :
+          null;
+
+        applyCommittedRoll(working, finalOption, notices.length ? notices : ["Roll completed"], previewOption);
         return working;
       }
 
@@ -1350,8 +1494,10 @@
         } else {
           chaosBanner.classList.remove("show");
         }
-        renderFinalCard("p1", roll.p1);
-        renderFinalCard("p2", roll.p2);
+        const p1Reveal = (roll.chaosMode && roll.previewP1Guns) ? { ...roll.p1, guns: roll.previewP1Guns } : roll.p1;
+      renderFinalCard("p1", p1Reveal);
+        const p2Reveal = (roll.chaosMode && roll.previewP2Guns) ? { ...roll.p2, guns: roll.previewP2Guns } : roll.p2;
+      renderFinalCard("p2", p2Reveal);
         document.getElementById("revealStage").textContent = "Loadouts ready";
       }
     }
@@ -1418,7 +1564,16 @@
       p1Card.classList.remove("reveal");
       void p1Card.offsetWidth;
       p1Card.classList.add("reveal");
-      renderFinalCard("p1", roll.p1);
+      if (roll.chaosMode && roll.previewP1Guns) {
+        document.getElementById("p1Legend").textContent = roll.p1.legend;
+        renderWeaponRows("p1Weapons", roll.previewP1Guns);
+        setLegendImage("p1LegendWrap", roll.p1.legend);
+        roll.previewP1Guns.forEach((gun, idx) => {
+          setWeaponImage(`p1Weapons_img_${idx}`, gun);
+        });
+      } else {
+        renderFinalCard("p1", roll.p1);
+      }
       playRevealHit();
 
       document.getElementById("revealStage").textContent = `${roll.p1.legend} locked in`;
@@ -1431,7 +1586,16 @@
       p2Card.classList.remove("reveal-right");
       void p2Card.offsetWidth;
       p2Card.classList.add("reveal-right");
-      renderFinalCard("p2", roll.p2);
+      if (roll.chaosMode && roll.previewP2Guns) {
+        document.getElementById("p2Legend").textContent = roll.p2.legend;
+        renderWeaponRows("p2Weapons", roll.previewP2Guns);
+        setLegendImage("p2LegendWrap", roll.p2.legend);
+        roll.previewP2Guns.forEach((gun, idx) => {
+          setWeaponImage(`p2Weapons_img_${idx}`, gun);
+        });
+      } else {
+        renderFinalCard("p2", roll.p2);
+      }
       playRevealHit();
 
       document.getElementById("revealStage").textContent = `${roll.p2.legend} locked in`;
@@ -1445,15 +1609,40 @@
         }
 
         document.getElementById("revealStage").textContent = "....";
-        await new Promise(r => setTimeout(r, 180));
+        await new Promise(r => setTimeout(r, 420));
         document.getElementById("revealStage").textContent = "Wait for it...";
-        await new Promise(r => setTimeout(r, 220));
+        await new Promise(r => setTimeout(r, 320));
 
-        // Hit sound + banner + red blast all together after a tiny silence for impact
-        triggerChaosImpact();
+        if (roll.chaosMode === "swap") {
+          triggerJokerChaosImpact();
+        } else {
+          triggerChaosImpact();
+        }
 
         document.getElementById("revealStage").textContent =
           roll.chaosMode === "swap" ? "CHAOS: Swap Weapons" : "CHAOS: Pistols Only";
+
+        if (roll.chaosMode === "swap" && roll.previewP1Guns && roll.previewP2Guns) {
+          await new Promise(r => setTimeout(r, 820));
+          animateSwapToFinal(roll.p1.guns, roll.p2.guns);
+        }
+
+        if (roll.chaosMode === "pistol" && roll.previewP1Guns && roll.previewP2Guns) {
+          await new Promise(r => setTimeout(r, 520));
+          renderWeaponRows("p1Weapons", roll.previewP1Guns);
+          roll.previewP1Guns.forEach((gun, idx) => setWeaponImage(`p1Weapons_img_${idx}`, gun));
+
+          renderWeaponRows("p2Weapons", roll.previewP2Guns);
+          roll.previewP2Guns.forEach((gun, idx) => setWeaponImage(`p2Weapons_img_${idx}`, gun));
+
+          await new Promise(r => setTimeout(r, 1000));
+
+          renderWeaponRows("p1Weapons", roll.p1.guns);
+          roll.p1.guns.forEach((gun, idx) => setWeaponImage(`p1Weapons_img_${idx}`, gun));
+
+          renderWeaponRows("p2Weapons", roll.p2.guns);
+          roll.p2.guns.forEach((gun, idx) => setWeaponImage(`p2Weapons_img_${idx}`, gun));
+        }
       } else {
         document.getElementById("revealStage").textContent = "Loadouts locked";
       }
