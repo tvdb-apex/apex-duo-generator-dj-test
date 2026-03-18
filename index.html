@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=lFyYlZaz-RSqxjXEHHwQ11CR6fuRsHSDAX7TX2ZXVe7H9UJ1YcMHdEfw4a3UYHC0OLL3FDI7Pt-QLTFzgWfhS6XokCT9sdk39Fm1z0fpPqg-_AT8kErorfvP3n8iKHmDAO_IBzANCfHOvPh77ipCp40Q7w9mqJ393wcQsO-Tjrp3ZrhhWkIGe4UwNdB1Bekm__mKszXx4J6aGpOw93nX_OXmQcHFzfce0qaafcPSEMMEDpowjB0-dKeVPHFMBOxhHB1m2bHwROGcOQFSoef8VQ" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -603,6 +603,22 @@
       100%{opacity:0}
     }
 
+    .mobile-tabs{
+      display:none;
+      gap:10px;
+      margin:10px 0 16px;
+    }
+
+    .mobile-tab{
+      flex:1 1 0;
+      min-width:0;
+    }
+
+    .mobile-tab.active{
+      border-color:rgba(255,106,43,.5);
+      background:linear-gradient(180deg, rgba(255,106,43,.18), rgba(255,106,43,.06));
+    }
+
 
     @media (max-width:1080px){
       .statusbar,.main-grid,.meta-grid,.pool-grid{grid-template-columns:1fr}
@@ -612,13 +628,129 @@
     }
 
     @media (max-width:720px){
-      .wrap{padding:14px}
-      h1{font-size:42px}
-      .legend-name{font-size:34px;min-height:38px}
-      .weapon-name{font-size:18px}
-      .stat-value{font-size:34px}
-      .controls,.secondary-row{width:100%}
-      .controls button,.secondary-row button{flex:1 1 auto}
+      .wrap{padding:12px}
+      .topbar{margin-bottom:10px}
+      .topbar > div:first-child{display:none}
+      .controls,.secondary-row{
+        width:100%;
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+      }
+      .controls button,.secondary-row button{
+        width:100%;
+        min-width:0;
+        padding:12px 10px;
+        font-size:14px;
+      }
+      .primary{min-width:0;font-size:15px}
+      .statusbar{
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+        margin:10px 0 12px;
+      }
+      .stat{
+        padding:12px;
+        border-radius:16px;
+      }
+      .stat-label{font-size:11px;margin-bottom:8px}
+      .stat-value{font-size:28px}
+      .reveal-stage{
+        min-height:22px;
+        font-size:12px;
+        margin-bottom:8px;
+      }
+      .chaos-banner{
+        padding:12px 14px;
+        border-radius:16px;
+        margin-bottom:10px;
+      }
+      .chaos-title{font-size:22px}
+      .chaos-sub{font-size:13px}
+      .main-grid{
+        display:block;
+        margin-bottom:10px;
+      }
+      .player-card{
+        min-height:auto;
+        border-radius:20px;
+      }
+      .card-content{
+        grid-template-columns:1fr;
+        min-height:auto;
+      }
+      .card-left{
+        padding:14px 14px 10px;
+        gap:10px;
+      }
+      .player-card-name{font-size:12px}
+      .legend-name{
+        font-size:30px;
+        min-height:32px;
+      }
+      .weapons{gap:8px}
+      .weapon-row{
+        min-height:54px;
+        grid-template-columns:52px 1fr;
+        padding:8px 10px;
+      }
+      .weapon-thumb-wrap,.weapon-thumb{
+        width:40px;
+        height:40px;
+      }
+      .weapon-name{font-size:16px}
+      .weapon-class{font-size:10px}
+      .card-right{
+        min-height:180px;
+        padding:8px 12px 12px;
+      }
+      .legend-image{
+        max-width:260px;
+        max-height:180px;
+      }
+      .legend-fallback{
+        width:100%;
+        max-width:220px;
+        border-radius:18px;
+        font-size:18px;
+      }
+      #p2Card.mobile-hidden,#p1Card.mobile-hidden{display:none}
+      .mobile-tabs{
+        display:flex;
+      }
+      .meta-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+      .panel,.pool-panel{
+        padding:14px;
+        border-radius:18px;
+      }
+      .panel h3,.pool-panel h3{
+        margin-bottom:8px;
+        font-size:16px;
+      }
+      .pool-grid{grid-template-columns:1fr;gap:10px}
+      .pool-box{
+        min-height:auto;
+        padding:12px;
+      }
+      .footer-note{margin-top:8px;font-size:11px}
+      #soundToggleBtn{
+        font-size:0;
+        position:relative;
+      }
+      #soundToggleBtn::before{
+        content:"🔊";
+        font-size:18px;
+      }
+      #soundToggleBtn.muted::before{
+        content:"🔇";
+      }
+      #togglePoolsBtn{
+        text-transform:uppercase;
+      }
+      #togglePoolsBtn span.label-full{display:none}
     }
   </style>
 </head>
@@ -640,7 +772,7 @@
     </div>
 
     <div class="secondary-row">
-      <button id="togglePoolsBtn" class="pill-toggle">Show Remaining Pools</button>
+      <button id="togglePoolsBtn" class="pill-toggle"><span class="label-full">Show Remaining Pools</span>Pool</button>
       <button id="soundToggleBtn" class="pill-toggle active">Sound On</button>
     </div>
 
@@ -716,6 +848,11 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="mobile-tabs" id="mobileTabs">
+      <button id="showDjBtn" class="mobile-tab active">DJ</button>
+      <button id="showTvdbBtn" class="mobile-tab">TVDB</button>
     </div>
 
     <div class="meta-grid">
@@ -1726,6 +1863,7 @@
       soundEnabled = !soundEnabled;
       const btn = document.getElementById("soundToggleBtn");
       btn.classList.toggle("active", soundEnabled);
+      btn.classList.toggle("muted", !soundEnabled);
       btn.textContent = soundEnabled ? "Sound On" : "Sound Off";
 
       if (soundEnabled) {
@@ -1733,6 +1871,42 @@
         playRevealHit();
       } else {
         sounds.bg.pause();
+      }
+    });
+
+    function setMobileCardView(side) {
+      const p1 = document.getElementById("p1Card");
+      const p2 = document.getElementById("p2Card");
+      const dj = document.getElementById("showDjBtn");
+      const tv = document.getElementById("showTvdbBtn");
+
+      if (window.innerWidth > 720) {
+        p1.classList.remove("mobile-hidden");
+        p2.classList.remove("mobile-hidden");
+        if (dj) dj.classList.remove("active");
+        if (tv) tv.classList.remove("active");
+        return;
+      }
+
+      if (side === "p1") {
+        p1.classList.remove("mobile-hidden");
+        p2.classList.add("mobile-hidden");
+        dj.classList.add("active");
+        tv.classList.remove("active");
+      } else {
+        p2.classList.remove("mobile-hidden");
+        p1.classList.add("mobile-hidden");
+        tv.classList.add("active");
+        dj.classList.remove("active");
+      }
+    }
+
+    document.getElementById("showDjBtn").addEventListener("click", () => setMobileCardView("p1"));
+    document.getElementById("showTvdbBtn").addEventListener("click", () => setMobileCardView("p2"));
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 720) {
+        setMobileCardView("p1");
       }
     });
 
@@ -1759,6 +1933,7 @@
       )
       .subscribe();
 
+    setMobileCardView("p1");
     boot();
   </script>
 </body>
