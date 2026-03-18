@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=UCODIAG8UTkX3MMgCoxFbQJZMXclUMHbCmH0bO_O15P4cznQOclgyxmX0wrfKBXmilBkGYwZ57kPJ6ynPHw8Jt7TVoSVYiMSZ2oFhdyYuK-U1wi5A1Rae_32b6-bxkteQzbZKYcV6j4xo-MW5qmTvBp8ZatrHXsdxjO-DwW70OQqEckGU-YBGWAyzrBpJOFlJ1qseHBUtLtaYDKYCgTfOfTyxCLTz4MG3xu7s-j2NAS2KATOHa5U5deVgSsc4q3W6Xgx2nlCyzMPVe-rMX6vtA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=9F7lrPV6W1e_iHzZEJZbDM7UAdHj1AqwqnvBAniw_m145gDXcAQL2xhxKzgOkMooHgaJFzvXFyuWzDrsdCQQF8I8y99vmUt8fEwWJ7lQVTmrFZgBGHqpON2unCFbhkwii_9PbROPF4LflSuMedx-7njS827ebG5igvQMHAQID6AIx4HB8_aRiG7PGFOBEgHyXLr5My8dDYhQNAPw2y47go6XACtuTnHZ-rgSJRJONdZi2rPdDRXr83X09Keu231z3zymsYLwncvUMXa0HyqQ-w" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -1981,7 +1981,11 @@
       )
       .subscribe();
 
-    window.addEventListener("DOMContentLoaded", boot);
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", boot);
+    } else {
+      boot();
+    }
   
   }
 
