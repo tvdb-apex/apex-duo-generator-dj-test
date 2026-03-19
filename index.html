@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=tf16IdriKVnz1Jl2HjlPw-Bt8xNnBNFvc8arN5vKc7TZLeIhyxr-iaeDxOjd9epALOhEAmBAxhs2VmX8xWWLYDKl_J9CP-BMNBuNN7CRlY2BFJm6ivVYDztE3K_BRpNQnAe5Za5Uvb6Jyu7UlflGqfNi7oT3gk8eD6c_LpdoiMxtTuBwqURsWpUtbOHhKBC30I9O2uJ1v-6rqKjhiLA4LgQPoo4BelVU1G2ixTwpV9F3t2SwYx4z9_5uKd8jWZwB35hoTr1upU4VfTRRfq9wzA" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=MQoeLLIDMrD3V1dRMx-GBo4kE3OoJqYihXMMXM26uefMvo3c2x9GrJfqiwGM3GGpQnEUlq8fEmrDo67FCaZRCX6dWuKyvJBT9nSWwPjpsEs1llY6Fv1R-gUgaj0mu5D592v5rrTPY8J3jGROFxlix-B19ymB3KmYpsUZPgfcDDuC2Yi8doMiPrihPY9lgtaoz8uk8J6UGdsWD-J1TeU2W4TbTlYofy8uAIzw6WDGXAvopo2MAec7-5c0qCtCmE3R3epTWfCvaXrU6whIgP_RLQ" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -642,6 +642,24 @@
       cursor:default;
     }
 
+    .mobile-more-wrap{
+      display:none;
+      margin-top:10px;
+    }
+
+    .mobile-more-btn{
+      width:100%;
+      margin-bottom:10px;
+    }
+
+    .mobile-more-content{
+      display:none;
+    }
+
+    .mobile-more-content.open{
+      display:block;
+    }
+
 
     @media (max-width:1080px){
       .statusbar,.main-grid,.meta-grid,.pool-grid{grid-template-columns:1fr}
@@ -651,9 +669,9 @@
     }
 
     @media (max-width:720px){
-      .wrap{padding:12px}
+      .wrap{padding:10px}
       .topbar > div:first-child{display:none}
-      .topbar{margin-bottom:10px}
+      .topbar{margin-bottom:8px}
       .controls{
         width:100%;
         display:grid;
@@ -665,69 +683,82 @@
         min-width:0;
         padding:12px 10px;
         font-size:14px;
+        min-height:48px;
       }
       .primary{min-width:0;font-size:15px}
-      .secondary-row{
-        display:none;
-      }
       .reveal-stage{
-        min-height:20px;
-        font-size:12px;
-        margin-bottom:8px;
+        min-height:18px;
+        font-size:11px;
+        margin-bottom:6px;
       }
       .chaos-banner{
         padding:12px 14px;
         border-radius:16px;
         margin-bottom:10px;
       }
-      .chaos-title{font-size:22px}
+      .chaos-title{font-size:21px}
       .chaos-sub{font-size:13px}
       .mobile-reveal-wrap{display:block}
       .main-grid{display:none}
       .mobile-reveal-card{
         min-height:auto;
-        border-radius:20px;
+        border-radius:18px;
+        margin-bottom:8px;
       }
       .mobile-reveal-card .card-content{
         grid-template-columns:1fr;
         min-height:auto;
       }
       .mobile-reveal-card .card-left{
-        padding:14px 14px 10px;
-        gap:10px;
+        padding:14px 14px 8px;
+        gap:8px;
       }
-      .mobile-reveal-card .player-card-name{font-size:12px}
+      .mobile-reveal-card .player-card-name{
+        font-size:11px;
+        letter-spacing:.18em;
+      }
       .mobile-reveal-card .legend-name{
-        font-size:30px;
-        min-height:32px;
+        font-size:28px;
+        min-height:30px;
       }
       .mobile-reveal-card .weapons{gap:8px}
       .mobile-reveal-card .weapon-row{
-        min-height:54px;
-        grid-template-columns:52px 1fr;
+        min-height:52px;
+        grid-template-columns:48px 1fr;
         padding:8px 10px;
       }
       .mobile-reveal-card .weapon-thumb-wrap,.mobile-reveal-card .weapon-thumb{
-        width:40px;
-        height:40px;
+        width:36px;
+        height:36px;
       }
-      .mobile-reveal-card .weapon-name{font-size:16px}
+      .mobile-reveal-card .weapon-name{font-size:15px}
       .mobile-reveal-card .weapon-class{font-size:10px}
       .mobile-reveal-card .card-right{
-        min-height:180px;
-        padding:8px 12px 12px;
+        min-height:165px;
+        padding:4px 10px 10px;
       }
       .mobile-reveal-card .legend-image{
-        max-width:260px;
-        max-height:180px;
+        max-width:250px;
+        max-height:165px;
       }
       .mobile-reveal-card .legend-fallback{
         width:100%;
-        max-width:220px;
-        border-radius:18px;
-        font-size:18px;
+        max-width:210px;
+        border-radius:16px;
+        font-size:16px;
       }
-      .mobile-tabs{display:flex}
+      .mobile-tabs{
+        display:flex;
+        margin:0 0 8px;
+        gap:8px;
+      }
+      .mobile-tab{
+        min-height:44px;
+        border-radius:14px;
+      }
+      .mobile-more-wrap{display:block}
+      .mobile-more-content{display:none}
+      .mobile-more-content.open{display:block}
       .statusbar{
         grid-template-columns:1fr 1fr;
         gap:8px;
@@ -737,15 +768,15 @@
         padding:12px;
         border-radius:16px;
       }
-      .stat-label{font-size:11px;margin-bottom:8px}
-      .stat-value{font-size:28px}
+      .stat-label{font-size:10px;margin-bottom:6px}
+      .stat-value{font-size:26px}
       .meta-grid{
         grid-template-columns:1fr;
         gap:10px;
       }
       .panel,.pool-panel{
-        padding:14px;
-        border-radius:18px;
+        padding:12px;
+        border-radius:16px;
       }
       .panel h3,.pool-panel h3{
         margin-bottom:8px;
@@ -753,7 +784,24 @@
       }
       .pool-grid{grid-template-columns:1fr;gap:10px}
       .pool-box{min-height:auto;padding:12px}
-      .footer-note{margin-top:8px;font-size:11px}
+      .footer-note{
+        margin-top:6px;
+        font-size:10px;
+        line-height:1.45;
+      }
+      .secondary-row{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:8px;
+      }
+      .secondary-row button{
+        width:100%;
+        min-width:0;
+        padding:10px;
+        font-size:13px;
+        min-height:44px;
+      }
+      .small{font-size:12px}
     }
   </style>
 </head>
@@ -859,6 +907,9 @@
       </div>
     </div>
 
+    <div class="mobile-more-wrap">
+      <button id="mobileMoreBtn" class="mobile-more-btn">More</button>
+      <div id="mobileMoreContent" class="mobile-more-content">
     <div class="statusbar">
       <div class="stat">
         <div class="stat-label">Legend Cycle</div>
@@ -892,6 +943,8 @@
         <h3>Connection</h3>
         <div id="statusText" class="status-text">Starting...</div>
         <div id="updatedAtText" class="small" style="margin-top:12px;"></div>
+      </div>
+    </div>
       </div>
     </div>
   </div>
@@ -1946,6 +1999,13 @@
 
     document.getElementById("showDjBtn").addEventListener("click", () => showMobileView("p1"));
     document.getElementById("showTvdbBtn").addEventListener("click", () => showMobileView("p2"));
+
+    document.getElementById("mobileMoreBtn").addEventListener("click", () => {
+      const content = document.getElementById("mobileMoreContent");
+      const btn = document.getElementById("mobileMoreBtn");
+      const isOpen = content.classList.toggle("open");
+      btn.textContent = isOpen ? "Less" : "More";
+    });
 
 
     // =========================
