@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=7Q4-tABuC6BoWQsToA_WMbIT-tx1-v9ehEBMDokCm9T5OFoAS9PaEasIm9wj7rozoBZ3Ya3Oxg57OlQZy55uaIvv1m2COWsaBgQWul0egSQ52xmiGGBnZEcNVei3PePHgqqeS-qn1e2CMzd4R2KSdgxM3JDoxRLluluSq_-QIsepsqHTX1gwMwMHCIeOn8pfLOT65EY5cf8_K8A7DcKYR-epV_RgvysDu2HjyUit18uRb66DKbO13RJZsodEyRCrugfHY9hr2dse5WE1o9Ba0A" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=AI8l-QcFDcmTgre_ijsqJG1mNJqPyzzunf9zCc1zZhY51kFTEzz8nqCUDhIwro2-AC0sB4I0P1Iqa_W6n5SFooFV1R7u9FlCQmstDZ2ikqUjUE_GgBsczWWQ6Qsuju1r9c4SSGhmcsEC7R6QNUncqc4nWFPNeb4T_4IC2ch91XmaRx3ecpJOAKkaYRWfYyBahr3mOp4i6mEygxNQ3hVxhQVUu30rR0GxSN5KMv9TQw5D02QcjZQN9wskcHOPipv5B21oF-ou9dDdgjjpHmt5qg" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -1047,36 +1047,51 @@
     let rollingInterval = null;
 
     const sounds = {
-      bg: new Audio("assets/sounds/bg.m4a?v=3"),
-      click: new Audio("assets/sounds/click.m4a?v=3"),
-      whoosh: new Audio("assets/sounds/whoosh.m4a?v=3"),
-      explosion: new Audio("assets/sounds/explosion.m4a?v=3"),
-      joker: new Audio("assets/sounds/joker-laugh.mp3?v=1")
+      bg: new Audio("assets/sounds/bg.m4a?v=4"),
+      clickA: new Audio("assets/sounds/click.m4a?v=4"),
+      clickB: new Audio("assets/sounds/click.m4a?v=4"),
+      whoosh: new Audio("assets/sounds/whoosh.m4a?v=4"),
+      explosion: new Audio("assets/sounds/explosion.m4a?v=4"),
+      joker: new Audio("assets/sounds/joker.m4a?v=4")
     };
+
+    let useClickA = true;
+
+    sounds.bg.preload = "none";
+    sounds.clickA.preload = "auto";
+    sounds.clickB.preload = "auto";
+    sounds.whoosh.preload = "auto";
+    sounds.explosion.preload = "auto";
+    sounds.joker.preload = "auto";
 
     sounds.bg.loop = true;
     sounds.bg.volume = 0.2;
-    sounds.click.volume = 0.6;
+    sounds.clickA.volume = 0.55;
+    sounds.clickB.volume = 0.55;
     sounds.whoosh.volume = 0.7;
     sounds.explosion.volume = 0.9;
-    if (sounds.joker) {
-      sounds.joker.volume = 0.8;
-      sounds.joker.preload = "none";
-    }
     sounds.joker.volume = 0.85;
 
     async function startAudioIfNeeded() {
       if (audioStarted || !soundEnabled) return;
       audioStarted = true;
       try {
+        // prime short sounds for faster first playback on mobile
+        sounds.clickA.load();
+        sounds.clickB.load();
+        sounds.whoosh.load();
+        sounds.explosion.load();
+        sounds.joker.load();
         await sounds.bg.play();
       } catch (_) {}
     }
 
     function playRollTick() {
       if (!soundEnabled) return;
-      sounds.click.currentTime = 0;
-      sounds.click.play().catch(() => {});
+      const s = useClickA ? sounds.clickA : sounds.clickB;
+      useClickA = !useClickA;
+      try { s.currentTime = 0; } catch (_) {}
+      s.play().catch(() => {});
     }
 
     function playRevealHit() {
