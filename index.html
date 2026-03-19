@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=MQoeLLIDMrD3V1dRMx-GBo4kE3OoJqYihXMMXM26uefMvo3c2x9GrJfqiwGM3GGpQnEUlq8fEmrDo67FCaZRCX6dWuKyvJBT9nSWwPjpsEs1llY6Fv1R-gUgaj0mu5D592v5rrTPY8J3jGROFxlix-B19ymB3KmYpsUZPgfcDDuC2Yi8doMiPrihPY9lgtaoz8uk8J6UGdsWD-J1TeU2W4TbTlYofy8uAIzw6WDGXAvopo2MAec7-5c0qCtCmE3R3epTWfCvaXrU6whIgP_RLQ" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=sBiThuMwrGdsEyCdVAFCyaKu6tR4baUk10f0ExWg1CaQ1TsnJ2Lv61UmK6CMv-omCxc48W4sv-fG25NV-zLVH143KDAiEW_R45MSsatTz0_Kjcr0mWZaF6CoVKPAEsOB_5adc2ZEa0jIjqyKVHNsRxouE3mAgXHT3wHUE5WaqSg32pcY31qpqqxMHHjIj7gVSORZyoMTRwct0xRjbQhInbNVbaAIa8g7Ls48d9qLq6I2qtY5Hm843uIa7AnBaLSgEg5-RaZPrIzoVc66ZZXLLw" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -804,6 +804,66 @@
       .small{font-size:12px}
     }
   </style>
+  <script>
+    window.onerror = function(msg, url, line, col, error) {
+      let el = document.getElementById("mobileDebugError");
+      if (!el) {
+        el = document.createElement("div");
+        el.id = "mobileDebugError";
+        el.style.position = "fixed";
+        el.style.left = "0";
+        el.style.right = "0";
+        el.style.bottom = "0";
+        el.style.maxHeight = "45vh";
+        el.style.overflow = "auto";
+        el.style.background = "rgba(140,0,0,0.95)";
+        el.style.color = "white";
+        el.style.padding = "10px";
+        el.style.zIndex = "999999";
+        el.style.fontFamily = "Arial, sans-serif";
+        el.style.fontSize = "12px";
+        el.style.lineHeight = "1.4";
+        el.style.whiteSpace = "pre-wrap";
+        document.body.appendChild(el);
+      }
+      const text = [
+        "ERROR:",
+        String(msg || "Unknown error"),
+        "",
+        "Line: " + String(line || "?"),
+        "Column: " + String(col || "?"),
+        url ? "Source: " + url : "",
+        error && error.stack ? "\nStack:\n" + error.stack : ""
+      ].filter(Boolean).join("\n");
+      el.textContent = text;
+    };
+
+    window.onunhandledrejection = function(event) {
+      let el = document.getElementById("mobileDebugError");
+      if (!el) {
+        el = document.createElement("div");
+        el.id = "mobileDebugError";
+        el.style.position = "fixed";
+        el.style.left = "0";
+        el.style.right = "0";
+        el.style.bottom = "0";
+        el.style.maxHeight = "45vh";
+        el.style.overflow = "auto";
+        el.style.background = "rgba(140,0,0,0.95)";
+        el.style.color = "white";
+        el.style.padding = "10px";
+        el.style.zIndex = "999999";
+        el.style.fontFamily = "Arial, sans-serif";
+        el.style.fontSize = "12px";
+        el.style.lineHeight = "1.4";
+        el.style.whiteSpace = "pre-wrap";
+        document.body.appendChild(el);
+      }
+      const reason = event && event.reason ? event.reason : "Unhandled promise rejection";
+      el.textContent = "PROMISE ERROR:\n" + (reason && reason.stack ? reason.stack : String(reason));
+    };
+  </script>
+
 </head>
 <body>
   <div class="chaos-blast" id="chaosBlast"></div>
