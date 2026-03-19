@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=sBiThuMwrGdsEyCdVAFCyaKu6tR4baUk10f0ExWg1CaQ1TsnJ2Lv61UmK6CMv-omCxc48W4sv-fG25NV-zLVH143KDAiEW_R45MSsatTz0_Kjcr0mWZaF6CoVKPAEsOB_5adc2ZEa0jIjqyKVHNsRxouE3mAgXHT3wHUE5WaqSg32pcY31qpqqxMHHjIj7gVSORZyoMTRwct0xRjbQhInbNVbaAIa8g7Ls48d9qLq6I2qtY5Hm843uIa7AnBaLSgEg5-RaZPrIzoVc66ZZXLLw" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=Vo3YjMlOhUk4eRta3chclMksTnrpd9PK12R8gKAxbi62piwAQeClIVdQ80NsOd_BeoSokoQqMcsD6Ia_TDwhgzcx8aAMRPkXghG2Dt0ORbwbyBTmjtWjRnOURL0KH3gLi9VZP0h0kKvT-hJW8ig9W7prnrshJzIK4oqG_edJhG4zduVDUKg3sNhp3vD3egc1cWIIFvJduOaSJKmdb3RCikcYNQ2NxpycbBxBJQiWtuvA9C3uTOjKPIpSCIWzlNgA6O88qpX0EzQOzTuTKH4QSw" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -642,24 +642,6 @@
       cursor:default;
     }
 
-    .mobile-more-wrap{
-      display:none;
-      margin-top:10px;
-    }
-
-    .mobile-more-btn{
-      width:100%;
-      margin-bottom:10px;
-    }
-
-    .mobile-more-content{
-      display:none;
-    }
-
-    .mobile-more-content.open{
-      display:block;
-    }
-
 
     @media (max-width:1080px){
       .statusbar,.main-grid,.meta-grid,.pool-grid{grid-template-columns:1fr}
@@ -669,9 +651,9 @@
     }
 
     @media (max-width:720px){
-      .wrap{padding:10px}
+      .wrap{padding:12px}
       .topbar > div:first-child{display:none}
-      .topbar{margin-bottom:8px}
+      .topbar{margin-bottom:10px}
       .controls{
         width:100%;
         display:grid;
@@ -683,82 +665,69 @@
         min-width:0;
         padding:12px 10px;
         font-size:14px;
-        min-height:48px;
       }
       .primary{min-width:0;font-size:15px}
+      .secondary-row{
+        display:none;
+      }
       .reveal-stage{
-        min-height:18px;
-        font-size:11px;
-        margin-bottom:6px;
+        min-height:20px;
+        font-size:12px;
+        margin-bottom:8px;
       }
       .chaos-banner{
         padding:12px 14px;
         border-radius:16px;
         margin-bottom:10px;
       }
-      .chaos-title{font-size:21px}
+      .chaos-title{font-size:22px}
       .chaos-sub{font-size:13px}
       .mobile-reveal-wrap{display:block}
       .main-grid{display:none}
       .mobile-reveal-card{
         min-height:auto;
-        border-radius:18px;
-        margin-bottom:8px;
+        border-radius:20px;
       }
       .mobile-reveal-card .card-content{
         grid-template-columns:1fr;
         min-height:auto;
       }
       .mobile-reveal-card .card-left{
-        padding:14px 14px 8px;
-        gap:8px;
+        padding:14px 14px 10px;
+        gap:10px;
       }
-      .mobile-reveal-card .player-card-name{
-        font-size:11px;
-        letter-spacing:.18em;
-      }
+      .mobile-reveal-card .player-card-name{font-size:12px}
       .mobile-reveal-card .legend-name{
-        font-size:28px;
-        min-height:30px;
+        font-size:30px;
+        min-height:32px;
       }
       .mobile-reveal-card .weapons{gap:8px}
       .mobile-reveal-card .weapon-row{
-        min-height:52px;
-        grid-template-columns:48px 1fr;
+        min-height:54px;
+        grid-template-columns:52px 1fr;
         padding:8px 10px;
       }
       .mobile-reveal-card .weapon-thumb-wrap,.mobile-reveal-card .weapon-thumb{
-        width:36px;
-        height:36px;
+        width:40px;
+        height:40px;
       }
-      .mobile-reveal-card .weapon-name{font-size:15px}
+      .mobile-reveal-card .weapon-name{font-size:16px}
       .mobile-reveal-card .weapon-class{font-size:10px}
       .mobile-reveal-card .card-right{
-        min-height:165px;
-        padding:4px 10px 10px;
+        min-height:180px;
+        padding:8px 12px 12px;
       }
       .mobile-reveal-card .legend-image{
-        max-width:250px;
-        max-height:165px;
+        max-width:260px;
+        max-height:180px;
       }
       .mobile-reveal-card .legend-fallback{
         width:100%;
-        max-width:210px;
-        border-radius:16px;
-        font-size:16px;
+        max-width:220px;
+        border-radius:18px;
+        font-size:18px;
       }
-      .mobile-tabs{
-        display:flex;
-        margin:0 0 8px;
-        gap:8px;
-      }
-      .mobile-tab{
-        min-height:44px;
-        border-radius:14px;
-      }
-      .mobile-more-wrap{display:block}
-      .mobile-more-content{display:none}
-      .mobile-more-content.open{display:block}
+      .mobile-tabs{display:flex}
       .statusbar{
         grid-template-columns:1fr 1fr;
         gap:8px;
@@ -768,15 +737,15 @@
         padding:12px;
         border-radius:16px;
       }
-      .stat-label{font-size:10px;margin-bottom:6px}
-      .stat-value{font-size:26px}
+      .stat-label{font-size:11px;margin-bottom:8px}
+      .stat-value{font-size:28px}
       .meta-grid{
         grid-template-columns:1fr;
         gap:10px;
       }
       .panel,.pool-panel{
-        padding:12px;
-        border-radius:16px;
+        padding:14px;
+        border-radius:18px;
       }
       .panel h3,.pool-panel h3{
         margin-bottom:8px;
@@ -784,86 +753,11 @@
       }
       .pool-grid{grid-template-columns:1fr;gap:10px}
       .pool-box{min-height:auto;padding:12px}
-      .footer-note{
-        margin-top:6px;
-        font-size:10px;
-        line-height:1.45;
-      }
-      .secondary-row{
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:8px;
-      }
-      .secondary-row button{
-        width:100%;
-        min-width:0;
-        padding:10px;
-        font-size:13px;
-        min-height:44px;
-      }
-      .small{font-size:12px}
+      .footer-note{margin-top:8px;font-size:11px}
+    
+      #soundToggleBtn{display:none}
     }
   </style>
-  <script>
-    window.onerror = function(msg, url, line, col, error) {
-      let el = document.getElementById("mobileDebugError");
-      if (!el) {
-        el = document.createElement("div");
-        el.id = "mobileDebugError";
-        el.style.position = "fixed";
-        el.style.left = "0";
-        el.style.right = "0";
-        el.style.bottom = "0";
-        el.style.maxHeight = "45vh";
-        el.style.overflow = "auto";
-        el.style.background = "rgba(140,0,0,0.95)";
-        el.style.color = "white";
-        el.style.padding = "10px";
-        el.style.zIndex = "999999";
-        el.style.fontFamily = "Arial, sans-serif";
-        el.style.fontSize = "12px";
-        el.style.lineHeight = "1.4";
-        el.style.whiteSpace = "pre-wrap";
-        document.body.appendChild(el);
-      }
-      const text = [
-        "ERROR:",
-        String(msg || "Unknown error"),
-        "",
-        "Line: " + String(line || "?"),
-        "Column: " + String(col || "?"),
-        url ? "Source: " + url : "",
-        error && error.stack ? "\nStack:\n" + error.stack : ""
-      ].filter(Boolean).join("\n");
-      el.textContent = text;
-    };
-
-    window.onunhandledrejection = function(event) {
-      let el = document.getElementById("mobileDebugError");
-      if (!el) {
-        el = document.createElement("div");
-        el.id = "mobileDebugError";
-        el.style.position = "fixed";
-        el.style.left = "0";
-        el.style.right = "0";
-        el.style.bottom = "0";
-        el.style.maxHeight = "45vh";
-        el.style.overflow = "auto";
-        el.style.background = "rgba(140,0,0,0.95)";
-        el.style.color = "white";
-        el.style.padding = "10px";
-        el.style.zIndex = "999999";
-        el.style.fontFamily = "Arial, sans-serif";
-        el.style.fontSize = "12px";
-        el.style.lineHeight = "1.4";
-        el.style.whiteSpace = "pre-wrap";
-        document.body.appendChild(el);
-      }
-      const reason = event && event.reason ? event.reason : "Unhandled promise rejection";
-      el.textContent = "PROMISE ERROR:\n" + (reason && reason.stack ? reason.stack : String(reason));
-    };
-  </script>
-
 </head>
 <body>
   <div class="chaos-blast" id="chaosBlast"></div>
@@ -967,9 +861,6 @@
       </div>
     </div>
 
-    <div class="mobile-more-wrap">
-      <button id="mobileMoreBtn" class="mobile-more-btn">More</button>
-      <div id="mobileMoreContent" class="mobile-more-content">
     <div class="statusbar">
       <div class="stat">
         <div class="stat-label">Legend Cycle</div>
@@ -1003,8 +894,6 @@
         <h3>Connection</h3>
         <div id="statusText" class="status-text">Starting...</div>
         <div id="updatedAtText" class="small" style="margin-top:12px;"></div>
-      </div>
-    </div>
       </div>
     </div>
   </div>
@@ -1183,27 +1072,36 @@
     }
 
     function playRollTick() {
+      if (isMobileView()) return;
       if (!soundEnabled) return;
-      sounds.click.currentTime = 0;
-      sounds.click.play().catch(() => {});
+      const s = useClickA ? getSound("clickA") : getSound("clickB");
+      useClickA = !useClickA;
+      try { s.currentTime = 0; } catch (_) {}
+      s.play().catch(() => {});
     }
 
     function playRevealHit() {
+      if (isMobileView()) return;
       if (!soundEnabled) return;
-      sounds.whoosh.currentTime = 0;
-      sounds.whoosh.play().catch(() => {});
+      const s = getSound("woosh");
+      try { s.currentTime = 0; } catch (_) {}
+      s.play().catch(() => {});
     }
 
     function playChaosExplosion() {
+      if (isMobileView()) return;
       if (!soundEnabled) return;
-      sounds.explosion.currentTime = 0;
-      sounds.explosion.play().catch(() => {});
+      const s = getSound("explosion");
+      try { s.currentTime = 0; } catch (_) {}
+      s.play().catch(() => {});
     }
 
     function playJokerLaugh() {
+      if (isMobileView()) return;
       if (!soundEnabled) return;
-      sounds.joker.currentTime = 0;
-      sounds.joker.play().catch(() => {});
+      const s = getSound("joker");
+      try { s.currentTime = 0; } catch (_) {}
+      s.play().catch(() => {});
     }
 
     function triggerJokerChaosImpact() {
@@ -2027,6 +1925,14 @@
     }
 
     async function boot() {
+      if (isMobileView()) {
+        soundEnabled = false;
+        const soundBtn = document.getElementById("soundToggleBtn");
+        if (soundBtn) {
+          soundBtn.classList.remove("active");
+          soundBtn.textContent = "Sound Off";
+        }
+      }
       setStatus("Connecting...");
       const state = await loadState();
       if (!state) return;
@@ -2044,6 +1950,7 @@
     });
 
     document.getElementById("soundToggleBtn").addEventListener("click", async () => {
+      if (isMobileView()) return;
       soundEnabled = !soundEnabled;
       const btn = document.getElementById("soundToggleBtn");
       btn.classList.toggle("active", soundEnabled);
@@ -2059,13 +1966,6 @@
 
     document.getElementById("showDjBtn").addEventListener("click", () => showMobileView("p1"));
     document.getElementById("showTvdbBtn").addEventListener("click", () => showMobileView("p2"));
-
-    document.getElementById("mobileMoreBtn").addEventListener("click", () => {
-      const content = document.getElementById("mobileMoreContent");
-      const btn = document.getElementById("mobileMoreBtn");
-      const isOpen = content.classList.toggle("open");
-      btn.textContent = isOpen ? "Less" : "More";
-    });
 
 
     // =========================
