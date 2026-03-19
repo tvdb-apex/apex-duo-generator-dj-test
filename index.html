@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Apex Duo Challenge</title>
   <link rel="icon" href="data:,">
-  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=2IRQTWHEVqEnzk2uw3svvj0CdLw-2xEKBsU-uLeoZUM6HN80egtP4xYWDu9V7MU-_z0eEgRNoeSiBrNSNLs9NSHuk-aQtoopV1LuHg9fxn0BZB_UEsT4m8G1O6H8OoJEKGYpo36Iek1bGnl-3MrClKa9ljklqJ9cUwEcBdv3qHOeg6pu7p8s1bWshPNHNpF-M3u-JIAJnmZoptSzcKHJLzU5OtU4BxxLdheaKdXxVpPwC8f9_0jpilN6FAg4WLxPTJo4APknAiDJOhINJgBpjg" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=tf16IdriKVnz1Jl2HjlPw-Bt8xNnBNFvc8arN5vKc7TZLeIhyxr-iaeDxOjd9epALOhEAmBAxhs2VmX8xWWLYDKl_J9CP-BMNBuNN7CRlY2BFJm6ivVYDztE3K_BRpNQnAe5Za5Uvb6Jyu7UlflGqfNi7oT3gk8eD6c_LpdoiMxtTuBwqURsWpUtbOHhKBC30I9O2uJ1v-6rqKjhiLA4LgQPoo4BelVU1G2ixTwpV9F3t2SwYx4z9_5uKd8jWZwB35hoTr1upU4VfTRRfq9wzA" charset="UTF-8"></script><script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=imsg4hE1hlxexYIrSXS3IMN1GIPzcWrtYwYvhhokTSFBaINeR4MCQ6TYUAizAPQE-XfXAOn03tZa1qkDpcBOxzgOxcScJcvxqXbyWr19iugZ1o1CH2cm3gMVZFWzoac8RWuuorhLXBYW2hfu4T3VPtznaqiRpVTuZxrtGOnujBikek7WmSI5aD3O1OHU_svckZexdoW8fdgZ_5X8eMggOZMkdNRDK79Pc7-Q_hNoyn6OLU7DxfQyM8x5YS7Ez-yXqQbozvopQekGrxS51v7sjA" charset="UTF-8"></script><style>
     :root{
       --bg:#070a0f;
       --bg2:#0b1119;
@@ -642,21 +642,6 @@
       cursor:default;
     }
 
-    .mobile-more-wrap{
-      display:none;
-      margin-top:10px;
-    }
-    .mobile-more-btn{
-      width:100%;
-      margin-bottom:10px;
-    }
-    .mobile-more-content{
-      display:none;
-    }
-    .mobile-more-content.open{
-      display:block;
-    }
-
 
     @media (max-width:1080px){
       .statusbar,.main-grid,.meta-grid,.pool-grid{grid-template-columns:1fr}
@@ -743,9 +728,6 @@
         font-size:18px;
       }
       .mobile-tabs{display:flex}
-      .mobile-more-wrap{display:block}
-      .mobile-more-content{display:none}
-      .mobile-more-content.open{display:block}
       .statusbar{
         grid-template-columns:1fr 1fr;
         gap:8px;
@@ -777,7 +759,7 @@
 </head>
 <body>
   <div class="chaos-blast" id="chaosBlast"></div>
-  <div class="joker-overlay" id="jokerOverlay"><div class="joker-card"><img data-src="assets/chaos/joker.png" alt="Joker Octane"><div class="joker-text">Gotcha.</div></div></div>
+  <div class="joker-overlay" id="jokerOverlay"><div class="joker-card"><img id="jokerImg" data-src="assets/chaos/joker.png" alt="Joker Octane"><div class="joker-text">Gotcha.</div></div></div>
 
   <div class="wrap">
     <div class="topbar">
@@ -877,9 +859,6 @@
       </div>
     </div>
 
-    <div class="mobile-more-wrap">
-      <button id="mobileMoreBtn" class="mobile-more-btn">More</button>
-      <div id="mobileMoreContent" class="mobile-more-content">
     <div class="statusbar">
       <div class="stat">
         <div class="stat-label">Legend Cycle</div>
@@ -913,8 +892,6 @@
         <h3>Connection</h3>
         <div id="statusText" class="status-text">Starting...</div>
         <div id="updatedAtText" class="small" style="margin-top:12px;"></div>
-      </div>
-    </div>
       </div>
     </div>
   </div>
@@ -1069,41 +1046,141 @@
     let isRolling = false;
     let rollingInterval = null;
 
-    const soundPaths = {
-      bg: "assets/sounds/bg.m4a?v=8",
-      clickA: "assets/sounds/click.m4a?v=8",
-      clickB: "assets/sounds/click.m4a?v=8",
-      woosh: "assets/sounds/woosh.m4a?v=8",
-      explosion: "assets/sounds/explosion.m4a?v=8",
-      joker: "assets/sounds/joker.m4a?v=8"
+    const sounds = {
+      bg: new Audio("assets/sounds/bg.m4a?v=9"),
+      click: new Audio("assets/sounds/click.m4a?v=9"),
+      whoosh: new Audio("assets/sounds/woosh.m4a?v=9"),
+      explosion: new Audio("assets/sounds/explosion.m4a?v=9"),
+      joker: new Audio("assets/sounds/joker.m4a?v=9")
     };
 
-    const sounds = { bg:null, clickA:null, clickB:null, woosh:null, explosion:null, joker:null };
-    let useClickA = true;
-
-    function getSound(name){
-      if (sounds[name]) return sounds[name];
-      const a = new Audio(soundPaths[name]);
-      a.preload = "none";
-      if (name === "bg") { a.loop = true; a.volume = 0.2; }
-      else if (name === "clickA" || name === "clickB") a.volume = 0.55;
-      else if (name === "woosh") a.volume = 0.7;
-      else if (name === "explosion") a.volume = 0.9;
-      else if (name === "joker") a.volume = 0.85;
-      sounds[name] = a;
-      return a;
-    }
+    sounds.bg.loop = true;
+    sounds.bg.volume = 0.2;
+    sounds.click.volume = 0.6;
+    sounds.whoosh.volume = 0.7;
+    sounds.explosion.volume = 0.9;
+    sounds.joker.volume = 0.85;
 
     async function startAudioIfNeeded() {
       if (audioStarted || !soundEnabled) return;
       audioStarted = true;
       try {
-        const bg = getSound("bg");
-        await bg.play();
+        await sounds.bg.play();
       } catch (_) {}
     }
 
-    document.addEventListener("pointerdown", startAudioIfNeeded, { once: true });
+    function playRollTick() {
+      if (!soundEnabled) return;
+      sounds.click.currentTime = 0;
+      sounds.click.play().catch(() => {});
+    }
+
+    function playRevealHit() {
+      if (!soundEnabled) return;
+      sounds.whoosh.currentTime = 0;
+      sounds.whoosh.play().catch(() => {});
+    }
+
+    function playChaosExplosion() {
+      if (!soundEnabled) return;
+      sounds.explosion.currentTime = 0;
+      sounds.explosion.play().catch(() => {});
+    }
+
+    function playJokerLaugh() {
+      if (!soundEnabled) return;
+      sounds.joker.currentTime = 0;
+      sounds.joker.play().catch(() => {});
+    }
+
+    function triggerJokerChaosImpact() {
+      const jokerImg = document.getElementById("jokerImg");
+      if (jokerImg && !jokerImg.getAttribute("src")) jokerImg.setAttribute("src", jokerImg.getAttribute("data-src"));
+      const overlay = document.getElementById("jokerOverlay");
+      overlay.classList.remove("show");
+      void overlay.offsetWidth;
+      overlay.classList.add("show");
+
+      document.body.classList.remove("joker-flash");
+      void document.body.offsetWidth;
+      document.body.classList.add("joker-flash");
+
+      document.body.classList.remove("chaos-shake");
+      void document.body.offsetWidth;
+      document.body.classList.add("chaos-shake");
+
+      playJokerLaugh();
+
+      setTimeout(() => {
+        overlay.classList.remove("show");
+        document.body.classList.remove("joker-flash");
+        document.body.classList.remove("chaos-shake");
+      }, 1900);
+    }
+
+    function animateSwapToFinal(p1FinalGuns, p2FinalGuns) {
+      const p1Wrap = document.getElementById("p1Weapons");
+      const p2Wrap = document.getElementById("p2Weapons");
+
+      document.getElementById("revealStage").textContent = "Swapping loadouts...";
+
+      p1Wrap.style.transition = "transform .95s ease, opacity .95s ease, filter .95s ease";
+      p2Wrap.style.transition = "transform .95s ease, opacity .95s ease, filter .95s ease";
+
+      p1Wrap.style.transform = "translateX(120px) scale(0.92) rotate(3deg)";
+      p2Wrap.style.transform = "translateX(-120px) scale(0.92) rotate(-3deg)";
+      p1Wrap.style.opacity = "0.05";
+      p2Wrap.style.opacity = "0.05";
+      p1Wrap.style.filter = "drop-shadow(0 0 18px rgba(140,255,120,0.5))";
+      p2Wrap.style.filter = "drop-shadow(0 0 18px rgba(180,80,255,0.5))";
+
+      setTimeout(() => {
+        renderWeaponRows("p1Weapons", p1FinalGuns);
+        p1FinalGuns.forEach((gun, idx) => setWeaponImage(`p1Weapons_img_${idx}`, gun));
+
+        renderWeaponRows("p2Weapons", p2FinalGuns);
+        p2FinalGuns.forEach((gun, idx) => setWeaponImage(`p2Weapons_img_${idx}`, gun));
+
+        p1Wrap.style.transform = "translateX(0) scale(1) rotate(0deg)";
+        p2Wrap.style.transform = "translateX(0) scale(1) rotate(0deg)";
+        p1Wrap.style.opacity = "1";
+        p2Wrap.style.opacity = "1";
+        p1Wrap.style.filter = "none";
+        p2Wrap.style.filter = "none";
+      }, 950);
+    }
+
+    function triggerChaosImpact() {
+      const blast = document.getElementById("chaosBlast");
+      const chaosBanner = document.getElementById("chaosBanner");
+      const chaosText = document.getElementById("chaosText");
+
+      blast.classList.remove("show");
+      void blast.offsetWidth;
+      blast.classList.add("show");
+
+      document.body.classList.remove("chaos-flash");
+      void document.body.offsetWidth;
+      document.body.classList.add("chaos-flash");
+
+      document.body.classList.remove("chaos-shake");
+      void document.body.offsetWidth;
+      document.body.classList.add("chaos-shake");
+
+      chaosBanner.classList.remove("show");
+      void chaosBanner.offsetWidth;
+      chaosBanner.classList.add("show");
+
+      playChaosExplosion();
+
+      setTimeout(() => {
+        blast.classList.remove("show");
+        document.body.classList.remove("chaos-flash");
+        document.body.classList.remove("chaos-shake");
+      }, 1350);
+    }
+
+    document.addEventListener("click", startAudioIfNeeded, { once: true });
 
     // =========================
     // HELPERS
@@ -1863,19 +1940,12 @@
         await startAudioIfNeeded();
         playRevealHit();
       } else {
-        if (sounds.bg) sounds.bg.pause();
+        sounds.bg.pause();
       }
     });
 
     document.getElementById("showDjBtn").addEventListener("click", () => showMobileView("p1"));
     document.getElementById("showTvdbBtn").addEventListener("click", () => showMobileView("p2"));
-
-    document.getElementById("mobileMoreBtn").addEventListener("click", () => {
-      const content = document.getElementById("mobileMoreContent");
-      const btn = document.getElementById("mobileMoreBtn");
-      const open = content.classList.toggle("open");
-      btn.textContent = open ? "Less" : "More";
-    });
 
 
     // =========================
